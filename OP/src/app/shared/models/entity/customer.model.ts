@@ -1,0 +1,60 @@
+export class Customer {
+    id: number;
+    code: number;
+    name: number;
+    address: number;
+    addressNote: number;
+    phoneNumber: number;
+    companyName: number;
+    userName: number;
+    passWord: number;
+    provinceId: number;
+    provinceName: number;
+    districtId: number;
+    districtName: number;
+    wardId: number;
+    wardName: number;
+    lat: number;
+    lng: number;
+    hubId: number;
+    hubName: number;
+    isShowPrice: boolean;
+    isAccept: boolean;
+    email: number;
+    fax: number;
+    notes: number;
+    parentCustomerName: number;
+    parentCustomerId: number;
+    rowNum: number;
+    totalCount: number;
+
+    paymentTypeId: number;
+    paymentTypeName: string;
+    customerTypeId: number;
+    customerTypeName: string;
+
+    salesUserId: number;
+    salesUserName: string;
+    supportUserId: number;
+    supportUserName: string;
+    accountingUserId: number;
+    accountingUserName: string;
+    pickupUserId: number;
+    pickupUserName: string;
+
+    salesOrganizationId: number;
+    stopServiceAlertDuration: number;
+    supportOrganizationId: number;
+    customerStatusId: number;
+    legalRepresentative: string;
+    tradingName: string;
+    website: string;
+    workTimeId: number;
+    vat: number;
+    vseOracleCode: string;
+    companyEmail: string;
+    companyPhone: string;
+    addressCompany: string;
+    isEnabled: boolean;
+    timeStopUsing: any;
+}

@@ -1,0 +1,12 @@
+.vs/
+Core.Api/obj/
+Core.Business/obj/
+Core.Data/obj/
+Core.Infrastructure/obj/
+Core.Entity/obj/
+Core.Api/bin/
+Core.Business/bin/
+Core.Data/bin/
+Core.Entity/bin/
+Core.Infrastructure/bin/
+Core.Api/appsettings.json

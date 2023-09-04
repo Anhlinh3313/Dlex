@@ -1,0 +1,113 @@
+<div class="p-col-12">
+    <div class="card">
+        <div>
+            <div class="p-grid form-group">
+                <div class="p-md-12 p-sm-12">
+                    <label class="label-test">Lọc dữ liệu </label>
+                </div>
+            </div>
+            <div class="p-grid form-group" style="padding-bottom: 10px;">
+                <div class="p-md-3 p-sm-12">
+                    <label class="label-test">Mã giảm giá </label>
+                    <p-dropdown  (onChange)="changePromotion()" [options]="promotion" [(ngModel)]="selectPromotion" class="dp dp-bg-white w-full dp-border" placeholder="Chọn dữ liệu" optionLabel="label" opt filter="true"></p-dropdown>
+                </div> 
+    
+                <div class="p-md-3 p-sm-12">
+                    <label class="label-test">Mã khách hàng </label>
+                    <p-dropdown  (onChange)="changeCustomer()" [options]="customer" [(ngModel)]="selectCustomer" class="dp dp-bg-white w-full dp-border" placeholder="Chọn dữ liệu" optionLabel="label" opt filter="true"></p-dropdown>
+                </div> 
+    
+                <div class="p-col-2 p-offset-4">
+                    <label>&nbsp;</label>
+                    <div class="p-inputgroup">
+                        <div class="p-input-icon-left">
+                           <i class="pi pi-search" style="cursor: pointer;"></i>
+                           <input autocomplete="false" [(ngModel)]="searchText" (keydown.enter)="onFilter()" pInputText class="input-icon search-input-wrapper" placeholder="Tìm kiếm..."/>
+                        </div>
+                        <button (click)="refresher()" pRipple type="button" class="btn bg-primary color-black br-none" style="width: 36px;margin-left: 20px;">
+                            <i class="pi pi-refresh pi-spin " style="cursor: pointer;"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="border-top: 1px solid #cecece;">
+            <div class="p-grid form-group" style="margin-top: 0.0rem;">
+                <div class="p-md-12 p-sm-12">
+                    <label class="label-test">Áp giá khách hàng </label>
+                </div>
+            </div>
+            <div class="p-grid form-group">
+                <div class="p-md-3 p-sm-12">
+                    <label class="label-test">Mã giảm giá (<b class="color-red">*</b>)</label>
+                    <p-dropdown  (onChange)="changePromotionCreate()" [options]="promotion" [(ngModel)]="createSelectPromotion" class="dp dp-bg-white w-full dp-border" placeholder="Chọn dữ liệu" optionLabel="label" opt filter="true"></p-dropdown>
+                </div> 
+    
+                <div class="p-md-3 p-sm-12">
+                    <label class="label-test">Mã khách hàng (<b class="color-red">*</b>)</label>
+                    <p-dropdown  (onChange)="changeCustomerCreate()" [options]="customer" [(ngModel)]="createSelectCustomer" class="dp dp-bg-white w-full dp-border" placeholder="Chọn dữ liệu" optionLabel="label" opt filter="true"></p-dropdown>
+                </div> 
+    
+                <div class="p-md-2 p-sm-12 p-md-offset-4">
+                    <label>&nbsp;</label>
+                    <button *ngIf="isAdd" (click)="createPromotionCustomer()" pButton type="button" label="LƯU THAY ĐỔI" class="btn bg-primary color-black br-none"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-grid pt-15">
+            <div class="p-col-12" *ngIf="true">
+                <p-table #dt [value]="promotionCustomer" dataKey="id" [scrollable]="true" [paginator]="true"
+                    [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"  [loading]="roleLoading"
+                    [totalRecords]="totalRecords" [lazy]="true" (onPage)="onPageChange($event)"
+                    scrollHeight="400px" [rowsPerPageOptions]="[5,20,50,100]"
+                    currentPageReportTemplate="Từ {first} đến {last} của {totalRecords} mục" >
+                    <ng-template pTemplate="header"> 
+                        <tr>
+                            <th width="140px">TÁC VỤ</th>
+                            <th width="100px" >Mã giảm giá</th>
+                            <th width="100px">Khách hàng</th>
+                            <th width="100px">SĐT</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-promotionCustomer let-i="rowIndex">
+                        <tr>
+                            <td width="140px">
+                                <button *ngIf="isDelete" (click)="dialogDelete = true; selectedData = promotionCustomer" type="button" class="btn-icon bg-red">
+                                    <img src="../../../assets/layout/images/icon/delete.png" alt="">
+                                </button>
+                            </td>
+                            <td width="100px">{{promotionCustomer.promotionCode}}</td>
+                            <td width="100px">{{promotionCustomer.customerName}}</td>
+                            <td width="100px">{{promotionCustomer.phoneNumber}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <div class="p-col-12" *ngIf="false">
+                <div class="position-relative" style="text-align: center;margin-top: 15px;">
+                    <img src="assets/layout/images/dashboard/not-result.png" alt="mirage-layout" />
+                    <p class="m-0 color-black font-18 fw-500">KHÔNG TÌM THẤY VẬN ĐƠN NÀO TRONG KHOẢNG THỜI GIAN NÀY</p>
+                    <p class="m-0 color-grey font-14 fw-500">Bạn hãy chọn khoảng thời gian khác để tiếp tục tìm kiếm nhé!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End modal thông tin yêu cầu -->
+
+<!-- Start modal xóa -->
+<p-dialog class="waiting" [(visible)]="dialogDelete" [modal]="true" [style]="{'max-width': '400px'}" [baseZIndex]="10000"
+    showEffect="fade" [draggable]="false" [resizable]="false">
+    <div class="p-col-12 wp-title">
+        <img src="../../../assets/layout/images/icon/delete-wp.png" alt="">
+        <h1 class="fs-16 color-black m-0">Bạn có chắc muốn xoá dữ liệu này??</h1>
+    </div>
+    <ng-template pTemplate="footer">
+        <button type="button" style="width: 122px;" pButton (click)="dialogDelete=false" label="Hủy"
+            class="btn bg-white color-black border-black"></button>
+        <button (click)="deletePromotionCustomer()" type="button" style="width: 122px;" class="btn bg-primary color-black mr-5" pButton label="Xác nhận"></button>
+    </ng-template>
+</p-dialog>
+<!-- End modal xóa -->

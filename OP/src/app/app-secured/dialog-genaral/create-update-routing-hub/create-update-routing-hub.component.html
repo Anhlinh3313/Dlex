@@ -1,0 +1,86 @@
+<section>
+    <div class="p-col-12">
+        <div class="p-grid form-group">
+            <div class="p-md-3 p-col-12">
+                <label class="label-test">Mã (<b class="color-red">*</b>)</label>
+                <input [(ngModel)]="hubRouting.code" pInputText class="input search-input-wrapper" placeholder="Nhập mã..."/>
+            </div>
+            <div class="p-md-3 p-col-12">
+                <label class="label-test">Tên(<b class="color-red">*</b>)</label>
+                <input [(ngModel)]="hubRouting.name" pInputText class="input search-input-wrapper" placeholder="Nhập tên..."/>
+            </div>
+            <div class="p-md-3 p-col-12">
+                <label class="label-test">Loại xe </label>
+                <p-dropdown (onChange)="onChangeStationHub()" [options]="typeRider" [(ngModel)]="selectTypeRider" class="dp dp-bg-white w-full dp-border" placeholder="Chọn loại xe"></p-dropdown>
+            </div>
+            <!-- <div class="p-md-3 p-col-12">
+                <label class="label-test">Tỉnh thành (<b class="color-red">*</b>)</label>
+                <p-dropdown (onChange)="onChangeProvince()" [options]="provinces" [(ngModel)]="selectedProvince" class="dp dp-bg-white w-full dp-border" placeholder="Chọn tỉnh thành" optionLabel="label" filter="true"></p-dropdown>
+            </div>
+            <div class="p-md-3 p-col-12">
+                <label class="label-test">Quận huyện (<b class="color-red">*</b>)</label>
+                <p-dropdown (onChange)="onChangeDistrict()" [options]="districts" [(ngModel)]="selectedDistrict" class="dp dp-bg-white w-full dp-border" placeholder="Chọn đơn vị quận huyện" optionLabel="label" filter="true"></p-dropdown>
+            </div> -->
+        </div>
+        <div class="p-grid form-group">
+            <div class="p-md-3 p-sm-12">
+                <label class="label-test">Trung tâm (<b class="color-red">*</b>)</label>
+                <p-dropdown  (onChange)="changeCenterHub()" [options]="centerHubs" [(ngModel)]="selectedCenterHub" class="dp dp-bg-white w-full dp-border" placeholder="Chọn trung tâm" optionLabel="label" filter="true"></p-dropdown>
+            </div>
+            <div class="p-md-3 p-col-12">
+                <label class="label-test">Chi nhánh (<b class="color-red">*</b>)</label>
+                <p-dropdown (onChange)="onChangePoHub()" [options]="poHubs" [(ngModel)]="selectedPoHub" class="dp dp-bg-white w-full dp-border" placeholder="Chọn chi nhánh" optionLabel="label" filter="true"></p-dropdown>
+            </div>
+            <div class="p-md-3 p-sm-12">
+                <label class="label-test">Kho trạm (<b class="color-red">*</b>)</label>
+                <p-dropdown (onChange)="onChangeHub()" [options]="hubs" [(ngModel)]="selectedHub"  class="dp dp-bg-white w-full dp-border" placeholder="Chọn trạm" optionLabel="label" filter="true"></p-dropdown>
+            </div>
+            <div class="p-md-3 p-col-12">
+                <label class="label-test">Nhân viên đi tuyến (<b class="color-red">*</b>)</label>
+                <p-dropdown (onChange)="onChangeRider()" [options]="riders" [(ngModel)]="selectedRider" class="dp dp-bg-white w-full dp-border" placeholder="Chọn nhân viên phụ trách" optionLabel="label" filter="true"></p-dropdown>
+            </div>
+        </div>
+        <!-- <div class="p-grid form-group">
+            <div class="p-md-3 p-col-12">
+                <label class="label-test">KM phục vụ </label>
+                <input [(ngModel)]="hubRouting.radiusServe" pInputText class="input search-input-wrapper" placeholder="Nhập km phục vụ..."/>
+            </div>
+            <div class="p-md-3 p-col-12">
+                <label class="label-test">Mã kết nối </label>
+                <input [(ngModel)]="hubRouting.codeConnect" pInputText class="input search-input-wrapper" placeholder="Nhập mã kết nối..."/>
+            </div>
+        </div> -->
+        <div class="p-grid form-group">
+            <div class="p-md-12 p-col-12 text-center mt-15">
+                <button *ngIf="isEdit && edit" (click)="onClickSave()" pButton type="button" label="{{edit?'LƯU':'TẠO MỚI'}}" class="btn bg-primary color-black mr-5" style="width: 100px;"></button>
+                <button *ngIf="isAdd && !edit" (click)="onClickSave()" pButton type="button" label="{{edit?'LƯU':'TẠO MỚI'}}" class="btn bg-primary color-black mr-5" style="width: 100px;"></button>
+
+                <button (click)="onClickCancel(false)" pButton type="button" label="HUỶ BỎ" class="btn bg-white color-black border-black" style="width: 100px;"></button>
+            </div>
+        </div>
+    </div>
+    <div class="p-col-12">
+        <div class="p-grid pt-15">
+            <div class="p-col-12" *ngIf="true">
+                <p-table [value]="address" [scrollable]="true" [style]="{width:'100%'}" scrollHeight="350px" selectionMode="multiple" [(selection)]="SelectedWardIds">
+                    <ng-template pTemplate="header"> 
+                         <tr>
+                            <th style="text-align: center !important;" width="50px"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                            <th width="120px">Tỉnh thành </th>
+                            <th width="160px">Quận huyện </th>
+                            <th width="140px">Phường xã </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-address let-i="rowIndex">
+                        <tr>
+                            <td width="50px"><p-tableCheckbox [value]="address"></p-tableCheckbox></td>
+                            <td width="120px" style="word-break: break-word;">{{address.provinceName}}</td>
+                            <td width="160px" style="word-break: break-word;">{{address.districtName}}</td>
+                            <td width="140px" style="word-break: break-word;">{{address.wardName}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</section>

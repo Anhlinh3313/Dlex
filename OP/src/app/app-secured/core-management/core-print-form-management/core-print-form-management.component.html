@@ -1,0 +1,152 @@
+<p-tabView  [activeIndex]="index" (onChange)="handleChange($event)">
+    <p-tabPanel header="Cài đặt mẫu in" leftIcon="pi pi-align-justify">
+        <div class="p-col-12">
+            <div class="card">
+                <div class="p-grid form-group">
+                    <div class="p-md-3 p-sm-12">
+                        <label>Loại mẫu in</label>
+                        <p-dropdown (onChange)="onChangeFormPrintTab2()" [options]="formPrintsTab2" [(ngModel)]="selectedFormPrintTab2" class="dp dp-bg-white w-full dp-border" placeholder="Chọn loại mẫu in" optionLabel="label" opt filter="true"></p-dropdown>
+                    </div>
+
+                    <div class="p-md-3 p-sm-12">
+                        <label>Mẫu in</label>
+                        <p-dropdown (onChange)="onChangeFormPrintTypeTab2()" [options]="formPrintTypesTab2" [(ngModel)]="selectedFormPrintTypeTab2" class="dp dp-bg-white w-full dp-border" placeholder="Chọn mẫu in" optionLabel="label" filter="true"></p-dropdown>
+                    </div>
+                    <div class="p-md-3 p-sm-12">
+                        
+                    </div>
+                    <div class="p-md-3 p-sm-12">
+                        <label>Tìm kiếm</label>
+                        <input [(ngModel)]="listFormPrintViewModel.searchText" pInputText class="input search-input-wrapper" placeholder="Tìm kiếm..."
+                        (keydown.enter)="onSearch()"/>
+                    </div>
+        
+                </div>
+
+
+                <div class="p-grid pt-15">
+                    <div class="p-col-12" *ngIf="true">
+                        <p-table #dt [value]="listFormPrint" dataKey="id" [scrollable]="true" [paginator]="true"
+                            [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"  [loading]="roleLoading"
+                            [totalRecords]="totalRecords" [lazy]="true" (onPage)="onPageChange($event)"
+                            scrollHeight="400px" [rowsPerPageOptions]="[5,20,50,100]"
+                            currentPageReportTemplate="Từ {first} đến {last} của {totalRecords} mục" >
+                            <ng-template pTemplate="header"> 
+                                <tr>
+                                    <th width="140px">Thao tác</th>
+                                    <th width="200px" pSortableColumn="code">Loại mẫu in</th>
+                                    <th width="200px" pSortableColumn="notHoliday">Mẫu in</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-i="rowIndex">
+                                <tr>                                  
+                                    <td width="140px">
+                                        <button (click)="editFormPrint(rowData)" type="button" class="btn-icon bg-primary">
+                                            <img src="../../../assets/layout/images/icon/view.png" alt="">
+                                        </button>
+                                        <button *ngIf="isDelete" (click)="dialogDelete = true; selectedData = rowData" type="button" class="btn-icon bg-red">
+                                            <img src="../../../assets/layout/images/icon/delete.png" alt="">
+                                        </button>
+                                    </td>
+                                    <td width="200px">{{rowData.formPrintTypeName}}</td>
+                                    <td width="200px">{{rowData.name}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                    <div class="p-col-12" *ngIf="false">
+                        <div class="position-relative" style="text-align: center;margin-top: 15px;">
+                            <img src="assets/layout/images/dashboard/not-result.png" alt="mirage-layout" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End modal thông tin yêu cầu -->
+        
+        <!-- Start modal xóa -->
+        <p-dialog class="waiting" [(visible)]="dialogDelete" [modal]="true" [style]="{'max-width': '400px'}" [baseZIndex]="10000"
+            showEffect="fade" [draggable]="false" [resizable]="false">
+            <div class="p-col-12 wp-title">
+                <img src="../../../assets/layout/images/icon/delete-wp.png" alt="">
+                <h1 class="fs-16 color-black m-0">Bạn có chắc muốn xoá dữ liệu này??</h1>
+            </div>
+            <ng-template pTemplate="footer">
+                <button type="button" style="width: 122px;" pButton (click)="dialogDelete=false" label="Hủy"
+                    class="btn bg-white color-black border-black"></button>
+                <button (click)="deleteFormPrint()" type="button" style="width: 122px;" class="btn bg-primary color-black mr-5" pButton label="Xác nhận"></button>
+            </ng-template>
+        </p-dialog>
+        <!-- End modal xóa -->
+    </p-tabPanel>
+
+
+    <p-tabPanel header="Quản lý mẫu in" leftIcon="pi pi-pencil">
+        <div class="p-col-12">
+            <div class="card">
+                <div class="p-grid form-group">
+                    <div class="p-md-2 p-sm-12">
+                        <label class="label-test">Loại mẫu in</label>
+                        <p-dropdown (onChange)="onChangeFormPrint()" [options]="formPrints" [(ngModel)]="selectedFormPrint" class="dp dp-bg-white w-full dp-border" placeholder="Chọn loại mẫu in" optionLabel="label" opt filter="true"></p-dropdown>
+                    </div>
+                    <div class="p-md-2 p-sm-12">
+                        <label class="label-test">Mẫu in</label>
+                        <p-dropdown (onChange)="onChangeFormPrintType($event)" [options]="formPrintTypes" [(ngModel)]="selectedFormPrintType" class="dp dp-bg-white w-full dp-border" placeholder="Chọn mẫu in" optionLabel="label" filter="true"></p-dropdown>
+                    </div>
+                    <div class="p-md-2 p-sm-12">
+                        <label class="label-test">Ưu tiên</label>
+                        <input [(ngModel)]="numOrder" autocomplete="false" pInputText class="input-check" placeholder="0" min="0"/>
+                    </div>
+
+                    <div class="p-md-1 p-sm-12">
+                        <label class="label-test">Mặc định</label>
+                        <div class="mt-5" style="height: 34px;">
+                            <p-checkbox [(ngModel)]="isPublic" [binary]="true"></p-checkbox>
+                        </div>
+                    </div>
+
+                    <div class="p-md-2 p-sm-12">
+                        <div class="p-grid">
+                            <div class="p-md-12 p-sm-12" style="padding-bottom: 0;">               
+                                <label class="label-test">Kích thước bản in (px)</label>
+                            </div>
+                            <div class="p-md-5 p-sm-12"  style="padding-top: 0;">
+                                <input [(ngModel)]="width" type="number" autocomplete="false" pInputText class="input-check" placeholder="0" min="0"/>
+                            </div>
+                            <div class="p-md-1 p-sm-12 text-center p-0">     
+                                <span style="vertical-align: -webkit-baseline-middle;">x</span>
+                            </div>
+                            <div class="p-md-5 p-sm-12" style="padding-top: 0;">
+                                <input [(ngModel)]="height" type="number" autocomplete="false" pInputText class="input-check" placeholder="0" min="0"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-md-2 p-sm-12 p-md-offset-1">
+                        <label>&nbsp;</label>
+                        <button *ngIf="isEdit" (click)="updateFormPrint()" pButton type="button" label="LƯU THAY ĐỔI" class="btn bg-primary br-none"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="p-grid pt-15">
+                    <div class="p-md-12 p-sm-12">
+                        <form role="form" #myForm="ngForm" accept-charset="UTF-8" novalidate>
+                            <div class="form-group has-feedback" [ngClass]="{ 'has-error': myckeditor.invalid &&
+                                myckeditor.touched }" style="text-align: -webkit-center;">
+                                <ckeditor [(ngModel)]="formPrintBody" #myckeditor="ngModel" name="myckeditor" required
+                                    [config]="ckeConfig" debounce="500" (change)="onChange($event)">
+                                </ckeditor>
+                                <div *ngIf="myckeditor.invalid &&
+                                    myckeditor.touched"
+                                    class="help-block">Required
+                                    field.</div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </p-tabPanel>
+
+<!-- End modal thông tin yêu cầu -->
+</p-tabView>

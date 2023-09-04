@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ReleaseVersion>0.3</ReleaseVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.1.1" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.11.3" />
+    <PackageReference Include="FluentValidation" Version="7.1.1" />
+    <PackageReference Include="LinqKit.Microsoft.EntityFrameworkCore" Version="2.0.20" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.4.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\Validators\" />
+    <Folder Include="ViewModels\Abstract\" />
+    <Folder Include="ViewModels\Validators\Properties\" />
+    <Folder Include="Models\" />
+    <Folder Include="Core\Helpers\" />
+    <Folder Include="Core\Extensions\" />
+    <Folder Include="ViewModels\LadingSchedule\" />
+    <Folder Include="ViewModels\Customer\" />
+    <Folder Include="ViewModels\ShipmentVersion\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="ViewModels\Shipments\RemoveFromListGoodsViewModel.cs" />
+    <Compile Remove="ViewModels\General\ListGoodsType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core.Data\Core.Data.csproj" />
+    <ProjectReference Include="..\Core.Entity\Core.Entity.csproj" />
+    <ProjectReference Include="..\Core.Infrastructure\Core.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

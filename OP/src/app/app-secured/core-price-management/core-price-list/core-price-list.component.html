@@ -1,0 +1,386 @@
+<p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+    <p-tabPanel header="TẠO BẢNG GIÁ" leftIcon="pi pi-pencil">
+        <div class="p-col-12">
+            <div class="card">
+                <div class="p-grid form-group">
+                    <div class="p-md-2 p-sm-12 p-offset-10">
+                        <button (click)="refresCreateprice()" pRipple type="button" class="btn bg-primary color-black br-none" style="width: 36px;float: right;">
+                            <i class="pi pi-refresh pi-spin " style="cursor: pointer;"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-grid form-group">
+                    <div class="p-md-9 p-sm-12">
+                        <div class="p-grid form-group">
+                            <div class="p-md-6 p-sm-12">
+                                <label class="label-test">Mã bảng giá dịch vụ</label>
+                                <p-autoComplete [suggestions]="resultPriceServices" [(ngModel)]="priceService.code" (onSelect)="onSelectedByCode($event)" 
+                                (completeMethod)="searchByCode($event)" (onKeyUp)="keyUpEnter($event)" class="autocomplete-input"></p-autoComplete>
+                            </div>
+                            
+                            <div class="p-md-3 p-sm-12">
+                                <label class="label-test">Chọn dịch vụ </label>
+                                <p-dropdown (onChange)="onChangeService()" [options]="services" [(ngModel)]="selectedServices" class="dp dp-bg-white w-full dp-border" placeholder="Chọn dữ liệu" optionLabel="label" opt filter="true"></p-dropdown>
+                            </div> 
+
+                            <div class="p-md-3 p-sm-12">
+                                <label class="label-test">Ưu tiên (9-0)</label>
+                                <p-dropdown (onChange)="onChangeNumOrder($event)" [options]="selecNum" [(ngModel)]="selectedNumOrder" class="dp dp-bg-white w-full dp-border" placeholder="Chọn mức độ" optionLabel="label" opt filter="true"></p-dropdown>
+                            </div>
+                        </div>
+                        <div class="p-grid form-group">
+                            <div class="p-md-3 p-sm-12">
+                                <label class="label-test">Từ ngày </label>
+                                <p-calendar [(ngModel)]="selectCreateDateFrom" [inputStyleClass]="'dp dp-bg-white w-full dp-border calendar'" [style]="{'width': '100%'}" dateFormat="dd/mm/yy"></p-calendar>
+                            </div>
+                
+                            <div class="p-md-3 p-sm-12">
+                                <label class="label-test">Đến ngày </label>
+                                <p-calendar [(ngModel)]="selectCreateDateTo" [inputStyleClass]="'dp dp-bg-white w-full dp-border calendar'" [style]="{'width': '100%'}" dateFormat="dd/mm/yy"></p-calendar>
+                            </div>
+                            <div class="p-md-6 p-sm-12">
+                                <div class="p-grid form-group">
+                                    <div class="p-md-4 p-sm-12">
+                                        <label class="label-test">{{priceService.isTwoWay ? "Hai chiều" : "Một chiều"}}</label>
+                                        <p-inputSwitch class="is-check" [(ngModel)]="priceService.isTwoWay"></p-inputSwitch>
+                                    </div>
+
+                                    <div class="p-md-4 p-sm-12">
+                                        <label class="label-test">{{priceService.isPublic ? "BG chung " : "BG đặc biệt"}}</label>
+                                        <p-inputSwitch class="is-check" [(ngModel)]="priceService.isPublic"></p-inputSwitch>
+                                    </div>
+
+                                    <div class="p-md-4 p-sm-12">
+                                        <label class="label-test">{{priceService.isKeepWeight ? "Giữ nguyên cân" : "Làm tròn cân"}}</label>
+                                        <p-inputSwitch class="is-check" [(ngModel)]="priceService.isKeepWeight"></p-inputSwitch>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-grid form-group">
+                            <div class="p-md-3 p-sm-12">
+                                <label class="label-test">%VAT</label>
+                                <input type="number" [(ngModel)]="priceService.vatPercent" pInputText class="input search-input-wrapper" placeholder="Nhập %VAT..."/>
+                            </div>
+
+                            <div class="p-md-3 p-sm-12">
+                                <label class="label-test">%PPXD</label>
+                                <input type="number" [(ngModel)]="priceService.fuelPercent" pInputText class="input search-input-wrapper" placeholder="Nhập %PPXD..."/>
+                            </div>
+
+                            <div class="p-md-3 p-sm-12">
+                                <label class="label-test">%VSVX</label>
+                                <input type="number" [(ngModel)]="priceService.remoteAreasPricePercent" pInputText class="input search-input-wrapper" placeholder="Nhập %VSVX..."/>
+                            </div>
+
+                            <div class="p-md-3 p-sm-12">
+                                <label class="label-test">DIM</label>
+                                <input type="number" [(ngModel)]="priceService.dim" pInputText class="input search-input-wrapper" placeholder="Nhập DIM..."/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-md-3 p-sm-12">    
+                        <label>&nbsp;</label>
+                        <button *ngIf="isAdd" (click)="AddNewPriceService()" pButton type="button" label="TẠO MỚI BẢNG GIÁ" class="btn bg-blue color-white br-none fs-13"></button>
+                    </div>
+                </div>
+                <div class="p-grid form-group">
+                    <div class="p-md-6 p-sm-12">
+                        <div class="p-grid form-group">
+                            <div class="p-md-3 p-sm-12">
+                                <button pButton  (click)="viewPriceServiceDetailWitdParam()" type="button" label="XEM BẢNG GIÁ" icon="pi pi-eye" class="btn bg-primary color-black br-none fs-13"></button>
+                            </div>
+                            <div class="p-md-3 p-sm-12">
+                                <button (click)="AddArea()" pButton type="button" label="THÊM CỘT" class="btn bg-blue color-white br-none fs-13"></button>
+                            </div>
+                            <div class="p-md-3 p-sm-12">
+                                <button (click)="_addRowWeight()" pButton type="button" label="THÊM DÒNG" class="btn bg-blue color-white br-none fs-13"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-md-6 p-sm-12">
+                        <div class="p-grid form-group">
+                            <div class="p-md-3 p-sm-12 p-md-offset-4">
+                                <button  (click)="copyPriceService(priceService)" pButton type="button" label="COPY BẢNG GIÁ" icon="pi pi-copy" class="btn bg-primary color-black br-none fs-13"></button>
+                            </div>
+                            <div class="p-md-3 p-sm-12">
+                                <button (click)="deletePriceService()" pButton type="button" label="HUỶ BẢNG GIÁ" class="btn bg-red color-white br-none fs-13"></button>
+                            </div>
+                            <div class="p-md-2 p-sm-12">
+                                <button (click)="addWeight()" pButton type="button" label="LƯU" icon="pi pi-save" class="btn bg-blue color-white br-none fs-13"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-grid pt-15">
+                    <div class="p-col-12" *ngIf="true">
+                        <p-table #dt [value]="selectedWeight" dataKey="id"
+                            [rows]="rows" [lazy]="true" >
+                            <ng-template pTemplate="header"> 
+                                <tr>
+                                    <th width="100px">TÁC VỤ</th>
+                                    <th width="100px">Tính theo</th>
+                                    <th width="100px">Công thức</th>
+                                    <th width="100px">Từ (kg)</th>
+                                    <th width="100px">Đến (kg)</th>
+                                    <th *ngFor="let item of areaAndSelect" style="width: 200px;">
+                                        <div style="text-align: center">
+                                            <button type="button" class="btn-icon bg-primary" *ngIf="item.showInfo" 
+                                            (click)="updateAreaDistricts(item)">Lưu</button>
+
+                                            <button *ngIf="item.showInfo==true" (click)="hideInfo(item)" type="button" 
+                                            class="btn-icon bg-primary">Ẩn</button>
+
+                                            <button *ngIf="item.showInfo!=true" (click)="showInfo(item)" type="button" 
+                                            class="btn-icon bg-primary">Hiện</button>
+
+                                            <button *ngIf="isDelete" (click)="dialogDelete = true; selectedDataAreas = this.areas" type="button" class="btn-icon bg-red">
+                                                <img style="height: 15px;width: 100%;" src="../../../assets/layout/images/icon/delete.png" alt="">
+                                            </button>   
+                                        </div>
+                                        <div>
+                                            <input type="text" class="input" [(ngModel)]="item.code">
+                                        </div>
+                                        <div *ngIf="item.showInfo==true">
+                                            <div class="multiSelect" style="padding-top: 10px;">
+                                                <p-multiSelect #multiFromProvince [options]="provinces"
+                                                    filter="true" [(ngModel)]="item.multiSelectFromProvince"
+                                                    (keyup)="filterFromProvinceCreate($event, item, multiFromProvince)"
+                                                    [defaultLabel]="item.filterFromProvince" [maxSelectedLabels]="0"
+                                                    selectedItemsLabel="Đã chọn {0} T/T đi"
+                                                    [style]="{'width':'100%'}"
+                                                    (onChange)="changeCreateFromProvince(item, multiFromProvince, multiFromDistrict)">
+                                                </p-multiSelect>
+                                            </div>
+                                            <div class="multiSelect" style="padding-top: 10px;">
+                                                <p-multiSelect #multiFromDistrict [options]="item.fromDistricts"
+                                                    (keyup)="filterFromDistrictCreate($event, item, multiFromDistrict)" [(ngModel)]="item.multiSelectFromDistrict"
+                                                    [defaultLabel]="item.filterFromDistrict" [maxSelectedLabels]="0"
+                                                    selectedItemsLabel="Đã chọn {0} Q/H đi"
+                                                    [style]="{'width':'100%'}">
+                                                </p-multiSelect>
+                                            </div>
+                                            <div class="multiSelect" style="padding-top: 10px;">
+                                                <p-multiSelect #multiProvince [options]="provinces"
+                                                    (keyup)="filterToProvinceCreate($event, item, multiProvince, multiDistrict)"
+                                                    (onChange)="changeToProvinceCreate(item, multiProvince, multiDistrict)" filter="true"
+                                                    [(ngModel)]="item.multiSelectProvinces"
+                                                    [defaultLabel]="item.filterToProvince" [maxSelectedLabels]="0"
+                                                    selectedItemsLabel="Đã chọn {0} T/T đến"
+                                                    [style]="{'width':'100%'}">
+                                                </p-multiSelect>
+                                            </div>
+                                            <div class="multiSelect" style="padding-top: 10px;">
+                                                <p-multiSelect #multiDistrict [options]="item.districts"
+                                                    (keyup)="filterDistrict($event, item, multiDistrict)"
+                                                    [(ngModel)]="item.multiSelectDistrict"
+                                                    [defaultLabel]="item.filterToDistrict" [maxSelectedLabels]="0"
+                                                    selectedItemsLabel="Đã chọn {0} Q/H đến"
+                                                    [style]="{'width':'100%'}">
+                                                </p-multiSelect>
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                                <tr>
+                                    <td width="100px">
+                                        <button type="button" class="btn-icon bg-primary">
+                                            <img src="../../../assets/layout/images/icon/view.png" alt="">
+                                        </button>
+                                        <button *ngIf="isDelete" (click)="dialogDelete = true; selectedData = item" type="button" class="btn-icon bg-red">
+                                            <img src="../../../assets/layout/images/icon/delete.png" alt="">
+                                        </button>
+                                    </td>
+                                    <td width="100px" pEditableColumn>
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <p-dropdown [options]="pricingType" (onChange)="onChangePricingType($event.value)" [(ngModel)]="selectedPricingType" filter="true" class="dp dp-bg-white w-full dp-border" optionLabel="label"></p-dropdown>
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{item.pricingTypeId?.label}}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>  
+                                    <td width="100px" pEditableColumn>
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <p-dropdown [options]="formulas" (onChange)="onChangeFormula($event.value)" [(ngModel)]="selectedFormula" filter="true" class="dp dp-bg-white w-full dp-border" optionLabel="label"></p-dropdown>
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{item.selectedFormula?.label}}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>
+                                    <td width="100px" pEditableColumn>
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <input pInputText type="number" class="input" [(ngModel)]="item.weightFrom">
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{item.weightFrom}}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>
+                                    <td width="100px" pEditableColumn>
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <input pInputText type="number" class="input" [(ngModel)]="item.weightTo">
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{item.weightTo}}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>
+                                    <td width="200px" *ngFor="let rowData of item.areaAndPrices" pEditableColumn>
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <input pInputText type="number" class="input" [(ngModel)]="rowData.priceBasic.price">
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{rowData.priceBasic?.price}}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                    <div class="p-col-12" *ngIf="false">
+                        <div class="position-relative" style="text-align: center;margin-top: 15px;">
+                            <img src="assets/layout/images/dashboard/not-result.png" alt="mirage-layout" />
+                            <p class="m-0 color-black font-18 fw-500">KHÔNG TÌM THẤY VẬN ĐƠN NÀO TRONG KHOẢNG THỜI GIAN NÀY</p>
+                            <p class="m-0 color-grey font-14 fw-500">Bạn hãy chọn khoảng thời gian khác để tiếp tục tìm kiếm nhé!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p-dialog class="waiting" [(visible)]="dialogDelete" [modal]="true" [style]="{'max-width': '400px'}" [baseZIndex]="10000"
+            showEffect="fade" [draggable]="false" [resizable]="false">
+            <div class="p-col-12 wp-title">
+                <img src="../../../assets/layout/images/icon/delete-wp.png" alt="">
+                <h1 class="fs-16 color-black m-0">Bạn có chắc muốn xoá dữ liệu này??</h1>
+            </div>
+            <ng-template pTemplate="footer">
+                <button type="button" style="width: 122px;" pButton (click)="dialogDelete=false" label="Hủy"
+                    class="btn bg-white color-black border-black"></button>
+                <button (click)="confirmDeleteArea()" type="button" style="width: 122px;" class="btn bg-primary color-black mr-5" pButton label="Xác nhận"></button>
+            </ng-template>
+        </p-dialog>
+    </p-tabPanel>
+    <p-tabPanel header="DANH SÁCH BẢNG GIÁ" leftIcon="pi pi-align-justify">
+        <div class="p-col-12">
+            <div class="card">
+                <div class="p-grid form-group">
+                    <div class="p-md-2 p-sm-12">
+                        <label class="label-test">Từ ngày </label>
+                        <p-calendar [(ngModel)]="selectFromDate" (onSelect)="changeFromDate()" [inputStyleClass]="'dp dp-bg-white w-full dp-border calendar'" [style]="{'width': '100%'}" dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+        
+                    <div class="p-md-2 p-sm-12">
+                        <label class="label-test">Đến ngày </label>
+                        <p-calendar [(ngModel)]="selectToDate" (onSelect)="changeToDate()" [inputStyleClass]="'dp dp-bg-white w-full dp-border calendar'" [style]="{'width': '100%'}" dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                    
+                    <div class="p-md-2 p-sm-12">
+                        <label class="label-test">Dịch vụ</label>
+                        <p-dropdown  (onChange)="changeService()" [options]="services" [(ngModel)]="selectedServiceFilter" class="dp dp-bg-white w-full dp-border" placeholder="Chọn trung tâm" optionLabel="label" opt filter="true"></p-dropdown>
+                    </div> 
+
+                    <div class="p-md-2 p-sm-12">
+                        <label class="label-test">Tỉnh đi</label>
+                        <p-dropdown  (onChange)="changeFromProvince()" [options]="provinces" [(ngModel)]="selectedFromProvinceFrom" class="dp dp-bg-white w-full dp-border" placeholder="Chọn trung tâm" optionLabel="label" opt filter="true"></p-dropdown>
+                    </div> 
+
+                    <div class="p-md-2 p-sm-12">
+                        <label class="label-test">Tỉnh đến</label>
+                        <p-dropdown  (onChange)="changeToProvince()" [options]="provinces" [(ngModel)]="selectedToProvince" class="dp dp-bg-white w-full dp-border" placeholder="Chọn trung tâm" optionLabel="label" opt filter="true"></p-dropdown>
+                    </div> 
+
+                    <div class="p-md-1 p-sm-12 p-offset-1">
+                        <label class="label-test">&nbsp;</label>
+                        <div class="p-inputgroup" style="display: block !important;">
+                            <button (click)="refresher()" pRipple type="button" class="btn bg-primary color-black br-none" style="width: 36px;float: right;">
+                                <i class="pi pi-refresh pi-spin " style="cursor: pointer;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-grid form-group">   
+                    <div class="p-col-2 p-offset-10">
+                        <label>&nbsp;</label>
+                        <div class="p-input-icon-left">
+                            <i class="pi pi-search" style="cursor: pointer;"></i>
+                            <input autocomplete="false" [(ngModel)]="searchText" (keydown.enter)="onFilter()" pInputText class="input-icon search-input-wrapper" placeholder="Tìm kiếm..."/>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-grid pt-15">
+                    <div class="p-col-12" *ngIf="true">
+                        <p-table #dt [value]="listPriceServiceBeta" dataKey="id" [scrollable]="true" [paginator]="true"
+                            [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
+                            [totalRecords]="totalRecords" [lazy]="true" (onPage)="onPageChange($event)"
+                            scrollHeight="400px" [rowsPerPageOptions]="[5,20,50,100]"
+                            currentPageReportTemplate="Từ {first} đến {last} của {totalRecords} mục" >
+                            <ng-template pTemplate="header"> 
+                                <tr>
+                                    <th width="100px">TÁC VỤ</th>
+                                    <th width="100px" >Mã áp giá</th>
+                                    <th width="140px">Dịch vụ</th>
+                                    <th width="100px">Độ ưu tiên</th>
+                                    <th width="100px">Từ ngày</th>
+                                    <th width="100px">Đến ngày</th>
+                                    <th width="100px">DIM</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-listPriceServiceBeta let-i="rowIndex">
+                                <tr>
+                                    <td width="100px">
+                                        <button (click)="createPriceServices(listPriceServiceBeta)" type="button" class="btn-icon bg-primary">
+                                            <img src="../../../assets/layout/images/icon/view.png" alt="">
+                                        </button>
+
+                                        <button *ngIf="isDelete" (click)="dialogDelete = true; selectedData = listPriceServiceBeta" type="button" class="btn-icon bg-red">
+                                            <img src="../../../assets/layout/images/icon/delete.png" alt="">
+                                        </button>
+                                    </td>
+                                    <td width="140px">{{listPriceServiceBeta.code}}</td>
+                                    <td width="100px">{{listPriceServiceBeta.serviceName}}</td>
+                                    <td width="100px">{{listPriceServiceBeta.numOrder}}</td>
+                                    <td width="100px">{{listPriceServiceBeta.publicDateFrom | dateFormat}}</td>
+                                    <td width="100px">{{listPriceServiceBeta.publicDateTo | dateFormat}}</td>
+                                    <td width="100px">{{listPriceServiceBeta.dim}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                    <div class="p-col-12" *ngIf="false">
+                        <div class="position-relative" style="text-align: center;margin-top: 15px;">
+                            <img src="assets/layout/images/dashboard/not-result.png" alt="mirage-layout" />
+                            <p class="m-0 color-black font-18 fw-500">KHÔNG TÌM THẤY VẬN ĐƠN NÀO TRONG KHOẢNG THỜI GIAN NÀY</p>
+                            <p class="m-0 color-grey font-14 fw-500">Bạn hãy chọn khoảng thời gian khác để tiếp tục tìm kiếm nhé!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End modal thông tin yêu cầu -->
+        
+        <!-- Start modal xóa -->
+        <p-dialog class="waiting" [(visible)]="dialogDelete" [modal]="true" [style]="{'max-width': '400px'}" [baseZIndex]="10000"
+            showEffect="fade" [draggable]="false" [resizable]="false">
+            <div class="p-col-12 wp-title">
+                <img src="../../../assets/layout/images/icon/delete-wp.png" alt="">
+                <h1 class="fs-16 color-black m-0">Bạn có chắc muốn xoá dữ liệu này??</h1>
+            </div>
+            <ng-template pTemplate="footer">
+                <button type="button" style="width: 122px;" pButton (click)="dialogDelete=false" label="Hủy"
+                    class="btn bg-white color-black border-black"></button>
+                <button (click)="deletePriceServices()" type="button" style="width: 122px;" class="btn bg-primary color-black mr-5" pButton label="Xác nhận"></button>
+            </ng-template>
+        </p-dialog>
+        <!-- End modal xóa -->
+    </p-tabPanel>
+</p-tabView>

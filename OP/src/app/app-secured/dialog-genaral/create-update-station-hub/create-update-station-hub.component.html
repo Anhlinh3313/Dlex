@@ -1,0 +1,80 @@
+<section>
+    <div class="p-grid form-group">
+        <div class="p-md-4 p-col-12">
+            <label>Mã (<b class="color-red">*</b>)</label>
+            <input [(ngModel)]="hub.code" pInputText class="input search-input-wrapper" placeholder="Nhập mã..."/>
+        </div>
+        <div class="p-md-4 p-col-12">
+            <label>Tên(<b class="color-red">*</b>)</label>
+            <input [(ngModel)]="hub.name" pInputText class="input search-input-wrapper" placeholder="Nhập tên..."/>
+        </div>
+        <div class="p-md-4 p-col-12">
+            <label>Số điện thoại </label>
+            <input type="number" [(ngModel)]="hub.phoneNumber" pInputText class="input search-input-wrapper" placeholder="Nhập số điện thoại..."/>
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-4 p-col-12">
+            <label>Email </label>
+            <input [(ngModel)]="hub.email" pInputText class="input search-input-wrapper" placeholder="Nhập email..."/>
+        </div>
+        <div class="p-md-4 p-col-12">
+            <label>Fax </label>
+            <input [(ngModel)]="hub.fax" pInputText class="input search-input-wrapper" placeholder="Nhập fax..."/>
+        </div>
+        <div class="p-md-4 p-col-12">
+            <label>Bán kính phục vụ </label>
+            <input [(ngModel)]="hub.radiusServe" pInputText class="input search-input-wrapper" placeholder="Nhập bán kính..."/>
+        </div>
+       
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-8 p-col-12">
+            <label>Địa chỉ </label>
+            <input googleplace (setAddress)="setAddress($event)" [(ngModel)]="hub.address" type="address" id="address" pInputText class="input search-input-wrapper" placeholder="Nhập địa chỉ..."/>
+        </div>
+        <!-- <div class="p-md-4 p-col-12">
+            <label>Địa chỉ phụ</label>
+            <input [(ngModel)]="hub.addressDisplay" pInputText class="input search-input-wrapper" placeholder="Nhập địa chỉ phụ..."/>
+        </div> -->
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-4 p-col-12">
+            <label>Tỉnh thành (<b class="color-red">*</b>)</label>
+            <p-dropdown (onChange)="onChangeProvince()" [options]="provinces" [(ngModel)]="selectedProvince" class="dp dp-bg-white w-full dp-border" placeholder="Chọn tỉnh thành" optionLabel="label" filter="true"></p-dropdown>
+        </div>
+        <div class="p-md-4 p-col-12">
+            <label>Quận huyện (<b class="color-red">*</b>)</label>
+            <p-dropdown (onChange)="onChangeDistrict()" [options]="districts" [(ngModel)]="selectedDistrict" class="dp dp-bg-white w-full dp-border" placeholder="Chọn đơn vị quận huyện" optionLabel="label" filter="true"></p-dropdown>
+        </div>
+        <div class="p-md-4 p-col-12">
+            <label>Phường xã (<b class="color-red">*</b>)</label>
+            <p-dropdown (onChange)="onChangeWard()" [options]="wards" [(ngModel)]="selectedWard" class="dp dp-bg-white w-full dp-border" placeholder="Chọn đơn vị phường xã" optionLabel="label" filter="true"></p-dropdown>
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-4 p-col-12">
+            <label>Trung tâm (<b class="color-red">*</b>)</label>
+            <p-dropdown (onChange)="onChangeHub()" [options]="hubs" [(ngModel)]="selectedCenterHub" class="dp dp-bg-white w-full dp-border" placeholder="Chọn trung tâm" optionLabel="label" filter="true"></p-dropdown>
+        </div>
+        <div class="p-md-4 p-col-12">
+            <label>Chi nhánh (<b class="color-red">*</b>)</label>
+            <p-dropdown (onChange)="onChangePoHub()" [options]="poHubs" [(ngModel)]="selectedPoHub" class="dp dp-bg-white w-full dp-border" placeholder="Chọn chi nhánh" optionLabel="label" filter="true"></p-dropdown>
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-4 p-col-12">
+            <div class="mt-5">
+                <p-checkbox [binary]="true" [(ngModel)]="hub.hasAirPort"></p-checkbox>
+            </div>
+            <label style="position: fixed;margin-top: -20px;margin-left: 35px;">Có dịch vụ bay</label>
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-12 p-col-12 text-center mt-15">
+            <button *ngIf="isEdit && edit" (click)="onClickSave()" pButton type="button" label="{{edit?'LƯU':'TẠO MỚI'}}" class="btn bg-primary color-black mr-5" style="width: 100px;"></button>
+            <button *ngIf="isAdd && !edit" (click)="onClickSave()" pButton type="button" label="{{edit?'LƯU':'TẠO MỚI'}}" class="btn bg-primary color-black mr-5" style="width: 100px;"></button>
+            <button (click)="onClickCancel(false)" pButton type="button" label="HUỶ BỎ" class="btn bg-white color-black border-black" style="width: 100px;"></button>
+        </div>
+    </div>
+</section>

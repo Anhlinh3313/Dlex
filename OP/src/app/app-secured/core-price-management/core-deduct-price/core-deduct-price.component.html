@@ -1,0 +1,305 @@
+<p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+    <p-tabPanel header="DANH SÁCH GIẢM GIÁ" leftIcon="pi pi-align-justify">
+        <div class="p-col-12">
+            <div class="card">
+                <div class="p-grid form-group">
+                    <div class="p-md-2 p-sm-12">
+                        <!-- <button *ngIf="isAdd" (click)="createPromotion()" pButton type="button" label="TẠO MỚI" class="btn bg-primary color-black br-none">
+                            <img src="../../../assets/layout/images/topbar/create_black.png" alt="">
+                        </button> -->
+                    </div>
+                    <div class="p-md-1 p-sm-12 p-offset-9">
+                        <button (click)="refresher()" pRipple type="button" class="btn bg-primary color-black br-none" style="width: 36px;float: right;">
+                            <i class="pi pi-refresh pi-spin " style="cursor: pointer;"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-grid form-group">
+                    <div class="p-md-2 p-sm-12">
+                        <label class="label-test">Từ ngày </label>
+                        <p-calendar [(ngModel)]="selectFromDate" (onSelect)="changeFromDate()" [inputStyleClass]="'dp dp-bg-white w-full dp-border calendar'" [style]="{'width': '100%'}" dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+        
+                    <div class="p-md-2 p-sm-12">
+                        <label class="label-test">Đến ngày </label>
+                        <p-calendar [(ngModel)]="selectToDate" (onSelect)="changeToDate()" [inputStyleClass]="'dp dp-bg-white w-full dp-border calendar'" [style]="{'width': '100%'}" dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+        
+                    <div class="p-md-2 p-sm-12">
+                        <label class="label-test">Loại tính theo </label>
+                        <p-dropdown  (onChange)="changePromotionType()" [options]="promotionType" [(ngModel)]="selectPromotionType" class="dp dp-bg-white w-full dp-border" placeholder="Chọn dữ liệu" optionLabel="label" opt filter="true"></p-dropdown>
+                    </div> 
+        
+                    <div class="p-md-2 p-sm-12">
+                        <label class="label-test">Loại </label>
+                        <p-dropdown  (onChange)="changeType()" [options]="type" [(ngModel)]="selectType" class="dp dp-bg-white w-full dp-border" placeholder="Chọn dữ liệu" optionLabel="label" opt filter="true"></p-dropdown>
+                    </div> 
+        
+                    <div class="p-md-2 p-sm-12">
+                        <label class="label-test">Hoạt động </label>
+                        <p-dropdown  (onChange)="changeActivate()" [options]="activate" [(ngModel)]="selectActivate" class="dp dp-bg-white w-full dp-border" placeholder="Chọn dữ liệu" optionLabel="label" opt filter="true"></p-dropdown>
+                    </div> 
+                    <div class="p-col-2 ">
+                        <label>&nbsp;</label>
+                        <div class="p-input-icon-left">
+                            <i class="pi pi-search" style="cursor: pointer;"></i>
+                            <input autocomplete="false" [(ngModel)]="searchText" (keydown.enter)="onFilter()" pInputText class="input-icon search-input-wrapper" placeholder="Tìm kiếm..."/>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-grid pt-15">
+                    <div class="p-col-12" *ngIf="true">
+                        <p-table #dt [value]="promotion" dataKey="id" [scrollable]="true" [paginator]="true"
+                            [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"  [loading]="roleLoading"
+                            [totalRecords]="totalRecords" [lazy]="true" (onPage)="onPageChange($event)"
+                            scrollHeight="400px" [rowsPerPageOptions]="[5,20,50,100]"
+                            currentPageReportTemplate="Từ {first} đến {last} của {totalRecords} mục" >
+                            <ng-template pTemplate="header"> 
+                                <tr>
+                                    <th width="140px">TÁC VỤ</th>
+                                    <th width="100px" >Mã bảng giá</th>
+                                    <th width="100px">Loại tính theo</th>
+                                    <th width="100px">Diễn giải</th>
+                                    <th width="100px">Tổng ngân sách</th>
+                                    <th width="100px">Tổng số mã</th>
+                                    <th width="100px">Từ ngày</th>
+                                    <th width="100px">Đến ngày</th>
+                                    <th width="100px">Public</th>
+                                    <th width="100px">Hoạt động</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-promotion let-i="rowIndex">
+                                <tr>
+                                    <td width="140px">
+                                        <button (click)="updatePromotion(promotion)" type="button" class="btn-icon bg-primary">
+                                            <img src="../../../assets/layout/images/icon/view.png" alt="">
+                                        </button>
+                                        <button *ngIf="isDelete" (click)="dialogDelete = true; selectedData = promotion" type="button" class="btn-icon bg-red">
+                                            <img src="../../../assets/layout/images/icon/delete.png" alt="">
+                                        </button>
+                                    </td>
+                                    <td width="100px">{{promotion.code}}</td>
+                                    <td width="100px">{{promotion.promotionTypeName}}</td>
+                                    <td width="100px">{{promotion.promotionNot}}</td>
+                                    <td width="100px">{{promotion.totalPromotion}}</td>
+                                    <td width="100px">{{promotion.totalCode}}</td>
+                                    <td width="100px">{{promotion.fromDate | dateFormat}}</td>
+                                    <td width="100px">{{promotion.toDate | dateFormat}}</td>
+                                    <td width="100px"><p-checkbox [(ngModel)]="promotion.isPublic" [binary]="true" disabled></p-checkbox></td>
+                                    <td width="100px"><p-checkbox [(ngModel)]="promotion.isHidden" [binary]="true" disabled></p-checkbox></td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                    <div class="p-col-12" *ngIf="false">
+                        <div class="position-relative" style="text-align: center;margin-top: 15px;">
+                            <img src="assets/layout/images/dashboard/not-result.png" alt="mirage-layout" />
+                            <p class="m-0 color-black font-18 fw-500">KHÔNG TÌM THẤY VẬN ĐƠN NÀO TRONG KHOẢNG THỜI GIAN NÀY</p>
+                            <p class="m-0 color-grey font-14 fw-500">Bạn hãy chọn khoảng thời gian khác để tiếp tục tìm kiếm nhé!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End modal thông tin yêu cầu -->
+        
+        <!-- Start modal xóa -->
+        <p-dialog class="waiting" [(visible)]="dialogDelete" [modal]="true" [style]="{'max-width': '400px'}" [baseZIndex]="10000"
+            showEffect="fade" [draggable]="false" [resizable]="false">
+            <div class="p-col-12 wp-title">
+                <img src="../../../assets/layout/images/icon/delete-wp.png" alt="">
+                <h1 class="fs-16 color-black m-0">Bạn có chắc muốn xoá dữ liệu này??</h1>
+            </div>
+            <ng-template pTemplate="footer">
+                <button type="button" style="width: 122px;" pButton (click)="dialogDelete=false" label="Hủy"
+                    class="btn bg-white color-black border-black"></button>
+                <button (click)="deletePromotion()" type="button" style="width: 122px;" class="btn bg-primary color-black mr-5" pButton label="Xác nhận"></button>
+            </ng-template>
+        </p-dialog>
+        <!-- End modal xóa -->
+    </p-tabPanel>
+    <p-tabPanel header="MÃ GIẢM GIÁ" leftIcon="pi pi-pencil">
+        <div class="p-col-12">
+            <div class="card">
+                <div class="p-grid form-group">
+                    <div class="p-md-3 p-col-12">
+                        <label class="label-test">Mã giảm giá (<b class="color-red">*</b>)</label>
+                        <input [(ngModel)]="promotionFomulaFilter.code" pInputText class="input search-input-wrapper" placeholder="Nhập mã..."/>
+                    </div>
+            
+                    <div class="p-md-5 p-col-12">
+                        <label class="label-test">Diễn giải</label>
+                        <input [(ngModel)]="promotionFomulaFilter.promotionNot" pInputText class="input search-input-wrapper" placeholder="Nhập diễn giải..."/>
+                    </div>
+
+                    <div class="p-md-2 p-col-12">
+                        <label class="label-test">Tổng ngân sách</label>
+                        <input type="number" [(ngModel)]="promotionFomulaFilter.totalPromotion" pInputText class="input search-input-wrapper" placeholder="Nhập tổng ngân sách..."/>
+                    </div>
+            
+                    <div class="p-md-2 p-col-12">
+                        <label class="label-test">Tổng số mã</label>
+                        <input type="number" [(ngModel)]="promotionFomulaFilter.totalCode" pInputText class="input search-input-wrapper" placeholder="Nhập tổng số mã..."/>
+                    </div>
+                </div>
+                <div class="p-grid form-group">
+                    <div class="p-md-3 p-sm-12">
+                        <label class="label-test">Từ ngày</label>
+                        <p-calendar [(ngModel)]="selectFromDateEditOrUpdate" [inputStyleClass]="'dp dp-bg-white w-full dp-border calendar'" [style]="{'width': '100%'}" dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                
+                    <div class="p-md-3 p-sm-12">
+                        <label class="label-test">Đến ngày</label>
+                        <p-calendar [(ngModel)]="selectToDateEditOrUpdate" [inputStyleClass]="'dp dp-bg-white w-full dp-border calendar'" [style]="{'width': '100%'}" dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+
+                    <div class="p-md-2 p-sm-12">
+                        <label class="label-test">tính theo</label>
+                        <p-dropdown (onChange)="changePromotionTypeEdit()" [options]="promotionType" [(ngModel)]="selectPromotionTypeEdit" class="dp dp-bg-white w-full dp-border" placeholder="Chọn dữ liệu" optionLabel="label" opt filter="true"></p-dropdown>
+                    </div> 
+
+                    <div class="p-md-2 p-sm-12">
+                        <div style="text-align: center;">
+                            <label class="label-test">{{checkIsPublic ? "Public" : "Private"}}</label>
+                            <p-inputSwitch class="is-check" (onChange)="changeIsPublic($event)" [(ngModel)]="checkIsPublic"></p-inputSwitch>
+                        </div>
+                    </div>
+
+                    <div class="p-md-2 p-sm-12">
+                        <label class="label-test">&nbsp;</label>
+                        <div>
+                            <p-checkbox (onChange)="changeActivatePromotion($event)" [(ngModel)]="selectIsHiddenPromotion" [binary]="true"></p-checkbox>
+                            <label class="label-test">Hoạt động</label>
+                        </div>
+                    </div> 
+                </div>
+                <div class="p-grid pt-15">
+                    <div class="p-col-12" *ngIf="true">
+                        <p-table #dt [value]="promotionDetail" dataKey="fakeId" [scrollable]="true" editMode="row" class="table-excel"
+                            [showCurrentPageReport]="true" [loading]="promotionDetailLoading" [rows]="rows" scrollHeight="400px"
+                            [totalRecords]="totalRecordPromotionDetail" [lazy]="true">
+                            <ng-template pTemplate="header"> 
+                                <tr>
+                                    <th width="140px">TÁC VỤ</th>
+                                    <th width="140px">Công thức</th>
+                                    <th width="100px">DVGT</th>
+                                    <th width="100px">Từ</th>
+                                    <th width="100px">Đến</th>
+                                    <th width="100px">Giá trị</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-promotionDetail let-i="rowIndex">
+                                <tr>
+                                    <td width="140px">
+                                        <button *ngIf="isDelete" (click)="dialogDeletePromotionDetail = true; selectedDataPromotionDetail = promotionDetail" type="button" class="btn-icon bg-red">
+                                            <img src="../../../assets/layout/images/icon/delete.png" alt="">
+                                        </button>
+                                    </td>
+                                    <td style="width: 140px;padding-left: 0.75em !important;padding-right: 0.75em !important;" pEditableColumn>
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <p-dropdown [options]="promotionFormula" [(ngModel)]="promotionDetail.promotionFormulaId" (onChange)="onChangePromotionFormula(promotionDetail)" filter="true" class="dp dp-bg-white w-full dp-border" optionLabel="label"></p-dropdown>
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{promotionDetail.promotionFormulaName}}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>
+                                    <td style="width: 140px;padding-left: 0.75em !important;padding-right: 0.75em !important;" pEditableColumn>
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <p-multiSelect (onChange)="onChangeService(promotionDetail)" [options]="service" [(ngModel)]="promotionDetail.dataServiceDVGTs"
+                                                class="mts mts-bg-white w-full mts-border" placeholder="Chọn dịch vụ gia tăng" [defaultLabel]="promotionDetail.selectedItemsLabel" optionLabel="label" 
+                                                selectedItemsLabel="Đã chọn {0} DVGT"></p-multiSelect>
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{promotionDetail.selectedItemsLabel}}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>
+                                    <td style="width: 100px;padding-left: 0.75em !important;padding-right: 0.75em !important;" pEditableColumn>
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <input pInputText type="number" class="input" [(ngModel)]="promotionDetail.valueFrom">
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{promotionDetail.valueFrom}}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>
+                                    <td style="width: 100px;padding-left: 0.75em !important;padding-right: 0.75em !important;" pEditableColumn>
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <input pInputText type="number" class="input" [(ngModel)]="promotionDetail.valueTo">
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{promotionDetail.valueTo}}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>
+                                    <td style="width: 100px;padding-left: 0.75em !important;padding-right: 0.75em !important;" pEditableColumn>
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <input pInputText type="number" class="input" [(ngModel)]="promotionDetail.value">
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{promotionDetail.value}}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                    <div class="p-col-12" *ngIf="false">
+                        <div class="position-relative" style="text-align: center;margin-top: 15px;">
+                            <img src="assets/layout/images/dashboard/not-result.png" alt="mirage-layout" />
+                            <p class="m-0 color-black font-18 fw-500">KHÔNG TÌM THẤY VẬN ĐƠN NÀO TRONG KHOẢNG THỜI GIAN NÀY</p>
+                            <p class="m-0 color-grey font-14 fw-500">Bạn hãy chọn khoảng thời gian khác để tiếp tục tìm kiếm nhé!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="p-grid form-group">
+                        <div class="p-md-2 p-sm-12">
+                            <button (click)="createLine()" pButton type="button" label="THÊM DÒNG" class="btn bg-blue color-white br-none">
+                            </button>
+                        </div>
+
+                        <div *ngIf="isAdd && checkUpdate" class="p-md-2 p-sm-12 p-offset-6">
+                            <button (click)="createOrUpdatePromotionDetail()" pButton type="button" label="TẠO MỚI" class="btn bg-primary color-black br-none">
+                                <img src="../../../assets/layout/images/topbar/create_black.png" alt="">
+                            </button>
+                        </div>
+
+                        <div *ngIf="isEdit && !checkUpdate" class="p-md-2 p-sm-12 p-offset-6">
+                            <button (click)="createOrUpdatePromotionDetail()" pButton type="button" icon="pi pi-save" label="LƯU" class="btn bg-primary color-black br-none">
+                            </button>
+                        </div>
+
+                        <div class="p-md-2 p-sm-12">
+                            <button (click)="editPromotionDetail()" pButton type="button" label="HUỸ" class="btn bg-red color-white br-none">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <p-dialog class="waiting" [(visible)]="dialogDeletePromotionDetail" [modal]="true" [style]="{'max-width': '400px'}" [baseZIndex]="10000"
+                showEffect="fade" [draggable]="false" [resizable]="false">
+                <div class="p-grid">
+                  <div class="p-col-12 p-md-12 wp-title">
+                      <img src="../../../assets/layout/images/icon/delete-wp.png" alt="">
+                      <h3 class="fs-16 color-black m-0">Bạn có chắc muốn cập nhật liệu này??</h3>
+                  </div>
+                </div>
+                <p-footer class="footer-modal">
+                    <button type="button" style="width: 122px;" pButton (click)="dialogDeletePromotionDetail=false" label="Hủy"
+                        class="ui-button-cancel"></button>
+                    <button (click)="deletePromotionDetail()" type="button" style="width: 122px;" class="ui-button-confirm" pButton label="Xác nhận"></button>
+                </p-footer>
+                </p-dialog>
+            </div>
+        </div>
+    </p-tabPanel>
+</p-tabView>
+
+

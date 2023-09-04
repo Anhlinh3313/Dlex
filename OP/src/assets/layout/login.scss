@@ -1,0 +1,75 @@
+
+.login-body .login-content .desert {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    position: absolute;
+    bottom: 0;
+    background-image: url("/assets/layout/images/login/transportation-logistics.png");
+}
+
+.login-body .login-content {
+    display: flex;
+    justify-content: flex-end;
+    .login-panel {
+      height: auto;
+      display: flex;
+      justify-content: flex-start;
+      .login-panel-content {
+        margin-top: 30px;
+        background: linear-gradient(139.44deg, rgba(255, 255, 255, 0) 1.84%, rgba(255, 255, 255, 0.4) 97.5%);
+        backdrop-filter: blur(20px);
+        padding: 15px 50px !important;
+        text-align: center;
+        border-radius: 20px;
+        position: absolute;
+        max-height: 90%;
+        overflow: auto;
+        width: 35%;
+        top: 0;
+  
+        h3 {
+          font-size: 18px;
+          color: #1F1F1F;
+          font-weight: bold;
+        }
+        .test-message {
+          font-size: 18px;
+          color: #999999;
+          font-family: auto;
+        }
+        .forms label {
+          color: #ffffff !important;
+        }
+        .forms .login-input-wrapper {
+          margin-bottom: 15px;
+        }
+        .forms .login-input-wrapper input {
+          height: 36px;
+          border-radius: 4px;
+          color: #1F1F1F;
+          padding: 10px;
+        }
+        .buttons {
+          display: flex;
+          justify-content: center !important;
+        }
+        .forms .forgot-password {
+          padding: 10px 0;
+        }
+        .forms .forgot-password span {
+          color: #1F1F1F;
+          font-weight: 500;
+        }
+        .forms .register {
+          display: flex;
+          justify-content: center !important;
+        }
+        .forms .register span {
+          color: #ffffff;
+        }
+      }
+    }
+}

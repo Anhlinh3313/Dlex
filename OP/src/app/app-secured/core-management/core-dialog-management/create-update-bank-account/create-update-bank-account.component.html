@@ -1,0 +1,23 @@
+<section>
+    <div class="p-grid form-group">
+        <div class="p-md-4 p-col-12">
+            <label class="label-test">Mã (<b class="color-red">*</b>)</label>
+            <input [(ngModel)]="accountBank.code" pInputText class="input search-input-wrapper" placeholder="Nhập số TK..."/>
+        </div>
+        <div class="p-md-4 p-col-12">
+            <label class="label-test">Ngân hàng (<b class="color-red">*</b>)</label>
+            <p-dropdown (onChange)="onChangeBank()" [options]="bank" [(ngModel)]="selectedBank" class="dp dp-bg-white w-full dp-border" placeholder="Ngân hàng" optionLabel="label" filter="true"></p-dropdown>
+        </div>
+        <div class="p-md-4 p-col-12">
+            <label class="label-test">Chi nhánh (<b class="color-red">*</b>)</label>
+            <p-dropdown (onChange)="onChangeBranch()" [options]="branch" [(ngModel)]="selectedBranch" class="dp dp-bg-white w-full dp-border" placeholder="Chi nhánh" optionLabel="label" filter="true"></p-dropdown>
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-12 p-col-12 text-center mt-15">
+            <button *ngIf="isEdit && edit" (click)="onClickSave()" pButton type="button" label="LƯU" class="btn bg-primary color-black mr-5" style="width: 100px;"></button>
+            <button *ngIf="isAdd && !edit" (click)="onClickSave()" pButton type="button" label="TẠO MỚI" class="btn bg-primary color-black mr-5" style="width: 100px;"></button>
+            <button (click)="onClickCancel(false)" pButton type="button" label="HUỶ BỎ" class="btn bg-white color-black border-black" style="width: 100px;"></button>
+        </div>
+    </div>
+</section>

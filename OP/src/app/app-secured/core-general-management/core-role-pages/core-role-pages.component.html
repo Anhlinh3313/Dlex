@@ -1,0 +1,84 @@
+<div class="p-col-12">
+    <div class="card">
+        <div class="p-grid form-group">
+            <div class="p-md-3 p-sm-12">
+                <label class="label-test">Module</label>
+                <p-dropdown (onChange)="getPageByModuleId()" [options]="modules" [(ngModel)]="selectedModule" class="dp dp-bg-white w-full dp-border" placeholder="Chọn hệ thống" optionLabel="label" opt filter="true"></p-dropdown>
+            </div>
+            <div class="p-md-3 p-sm-12">
+                <label class="label-test">Chức vụ</label>
+                <p-dropdown (onChange)="getPermissionByRoleId()" [options]="roles" [(ngModel)]="selectedRole" class="dp dp-bg-white w-full dp-border" placeholder="Chọn chức vụ" optionLabel="label" filter="true"></p-dropdown>
+            </div>
+            <div class="p-md-2 p-sm-12 p-md-offset-4">
+                <label>&nbsp;</label>
+                <button *ngIf="isEdit" (click)="updatePermission()" pButton type="button" label="LƯU THAY ĐỔI" class="btn bg-primary br-none"></button>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="p-grid pt-15">
+            <div class="p-md-6 p-sm-12" *ngFor="let page of pages">
+                <p-table [value]="page.children" class="none-table">
+                    <ng-template pTemplate="header">
+                        <tr class="bg-grey" style="height: 36px;">
+                            <td class="bg-black text-uppercase test-td" style="text-align: left !important;font-weight: 600;">{{page.name || null}}</td>
+                            <td class="text-uppercase">
+                                <div class="display-space-between">
+                                    <span style="visibility: hidden;">
+                                        <p-checkbox  label="Thêm" binary="true"></p-checkbox>
+                                    </span>
+                                    <span style="visibility: hidden;">
+                                        <p-checkbox  label="Sửa" binary="true"></p-checkbox>
+                                    </span>
+                                    <!-- <span style="font-size: 12px !important;">
+                                        <p-checkbox (onChange)="CheckAllRolePage(page.children, $event)" binary="true" label="Chọn tất cả"></p-checkbox>
+                                    </span> -->
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                        <tr>
+                            <td class="bg-grey color-black" style="float: left !important;">{{item.name || null}}</td>
+                            <td style="text-align: left !important;float: unset;margin-right: 0px !important;">
+                                <div class="display-space-between" style="    width: max-content;float: right;">
+                                    <span>
+                                        <p-checkbox [(ngModel)]="item.rolePage.checkRolePageId" (onChange)="changeRole(item)" label="Chọn" binary="true" inputId="binary"></p-checkbox>
+                                    </span>
+                                    <span>
+                                        <p-checkbox [(ngModel)]="item.rolePage.isAccess" label="Xem" binary="true" inputId="binary" (onChange)="changeisAccess(item,$event)"></p-checkbox>
+                                    </span>
+                                    <span>
+                                        <p-checkbox [(ngModel)]="item.rolePage.isAdd" label="Thêm" binary="true" inputId="binary" (onChange)="changeisAdd(item,$event)"></p-checkbox>
+                                    </span>
+                                    <span>
+                                        <p-checkbox [(ngModel)]="item.rolePage.isEdit" label="Sửa" binary="true" inputId="binary" (onChange)="changeisEdit(item,$event)"></p-checkbox>
+                                    </span>
+                                    <span>
+                                        <p-checkbox [(ngModel)]="item.rolePage.isDelete" label="Xóa" binary="true" inputId="binary" (onChange)="changeisDelete(item,$event)"></p-checkbox>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End modal thông tin yêu cầu -->
+
+<!-- Start modal xóa -->
+<p-dialog class="waiting" [(visible)]="dialogDelete" [modal]="true" [style]="{'max-width': '400px'}" [baseZIndex]="10000"
+    showEffect="fade" [draggable]="false" [resizable]="false">
+    <div class="p-col-12 wp-title">
+        <img src="../../../assets/layout/images/icon/delete-wp.png" alt="">
+        <h1 class="fs-16 color-black m-0">Bạn có chắc muốn xoá dữ liệu này??</h1>
+    </div>
+    <ng-template pTemplate="footer">
+        <button type="button" style="width: 122px;" pButton (click)="dialogDelete=false" label="Hủy"
+            class="btn bg-white color-black border-black"></button>
+        <button (click)="updatePermission()" type="button" style="width: 122px;" class="btn bg-primary color-black mr-5" pButton label="Xác nhận"></button>
+    </ng-template>
+</p-dialog>
+<!-- End modal xóa -->

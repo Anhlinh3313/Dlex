@@ -1,0 +1,98 @@
+<div class="p-col-12">   
+     <div class="card">
+        <div class="p-grid form-group">
+            <div class="p-md-4 p-sm-12">
+                <label class="label-test">Trung tâm</label>
+                <p-dropdown  (onChange)="changeCenterHub()" [options]="centerHubs" [(ngModel)]="selectedCenterHub" class="dp dp-bg-white w-full dp-border" placeholder="Chọn trung tâm" optionLabel="label" opt filter="true"></p-dropdown>
+            </div>
+            <div class="p-md-4 p-sm-12">
+                <label class="label-test">Chi nhánh</label>
+                <p-dropdown (onChange)="changePoHub()" [options]="poHubs" [(ngModel)]="selectedPoHub"  class="dp dp-bg-white w-full dp-border" placeholder="Chọn chi nhánh" optionLabel="label" opt filter="true"></p-dropdown>
+            </div>
+            <div class="p-md-4 p-sm-12">
+                <label class="label-test">Trạm</label>
+                <p-dropdown (onChange)="changeHub()" [options]="hubs" [(ngModel)]="selectedHub"  class="dp dp-bg-white w-full dp-border" placeholder="Chọn trạm" optionLabel="label" opt filter="true"></p-dropdown>
+            </div>
+        </div>
+     </div>
+</div>
+<div class="p-col-12">
+    <div class="card">
+        <div class="p-grid form-group">
+            <div class="p-col-2">
+                <button *ngIf="isAdd" (click)="createOrUpdateUser()" pButton type="button" label="TẠO MỚI" class="btn bg-primary color-black br-none">
+                    <img src="../../../assets/layout/images/topbar/create_black.png" alt="">
+                </button>
+            </div>
+            <div class="p-col-2 p-offset-8">
+                <div class="p-inputgroup">
+                    <div class="p-input-icon-left">
+                       <i class="pi pi-search" style="cursor: pointer;"></i>
+                       <input (input)="dt.filterGlobal($event.target.value, 'contains')" pInputText class="input-icon search-input-wrapper" placeholder="Enter tìm kiếm..."/>
+                    </div>
+                    <button (click)="refresher()" pRipple type="button" class="btn bg-primary color-black br-none" style="width: 36px;margin-left: 20px;">
+                        <i class="pi pi-refresh pi-spin " style="cursor: pointer;"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="p-grid pt-15">
+            <div class="p-col-12" *ngIf="true">
+                <p-table #dt [value]="hubRouting" dataKey="id" [scrollable]="true" [paginator]="true"
+                    [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"  [loading]="routinHubLoading"
+                    [totalRecords]="totalRecords" (onPage)="onPageChange($event)" [rowsPerPageOptions]="[10,20,50,100]"
+                    [globalFilterFields]="['code','name','hub.name','user.fullName','hub.radiusServe']"
+                    currentPageReportTemplate="Từ {first} đến {last} của {totalRecords} mục" >
+                    <ng-template pTemplate="header"> 
+                        <tr>
+                            <th width="120px">TÁC VỤ</th>
+                            <th width="120px" pSortableColumn="code">MÃ <p-sortIcon  hidden='true' field="code"></p-sortIcon></th>
+                            <th width="160px" pSortableColumn="name">TÊN <p-sortIcon  hidden='true' field="name"></p-sortIcon></th>
+                            <th width="140px" pSortableColumn="hub.name">Tên kho/trạm <p-sortIcon  hidden='true' field="hub.name"></p-sortIcon></th>
+                            <th width="140px" pSortableColumn="user.fullName">Tên nhân viên <p-sortIcon  hidden='true' field="user.fullName"></p-sortIcon></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-hubRouting let-i="rowIndex">
+                        <tr>
+                            <td width="120px">
+                                <button (click)="createOrUpdateUser(hubRouting)"  type="button" class="btn-icon bg-primary">
+                                    <img src="../../../assets/layout/images/icon/view.png" alt="">
+                                </button>
+                                <button *ngIf="isDelete" (click)="dialogDelete = true; selectedData = hubRouting" type="button" class="btn-icon bg-red">
+                                    <img src="../../../assets/layout/images/icon/delete.png" alt="">
+                                </button>
+                            </td>
+                            <td width="120px" style="word-break: break-word;">{{hubRouting.code}}</td>
+                            <td width="160px" style="word-break: break-word;">{{hubRouting.name}}</td>
+                            <td width="140px" style="word-break: break-word;">{{hubRouting.hub?.name}}</td>
+                            <td width="140px" style="word-break: break-word;">{{hubRouting.user?.fullName}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <div class="p-col-12" *ngIf="false">
+                <div class="position-relative" style="text-align: center;margin-top: 15px;">
+                    <img src="assets/layout/images/dashboard/not-result.png" alt="mirage-layout" />
+                    <p class="m-0 color-black font-18 fw-500">KHÔNG TÌM THẤY VẬN ĐƠN NÀO TRONG KHOẢNG THỜI GIAN NÀY</p>
+                    <p class="m-0 color-grey font-14 fw-500">Bạn hãy chọn khoảng thời gian khác để tiếp tục tìm kiếm nhé!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End modal thông tin yêu cầu -->
+
+<!-- Start modal xóa -->
+<p-dialog class="waiting" [(visible)]="dialogDelete" [modal]="true" [style]="{'max-width': '400px'}" [baseZIndex]="10000"
+    showEffect="fade" [draggable]="false" [resizable]="false">
+    <div class="p-col-12 wp-title">
+        <img src="../../../assets/layout/images/icon/delete-wp.png" alt="">
+        <h1 class="fs-16 color-black m-0">Bạn có chắc muốn xoá dữ liệu này??</h1>
+    </div>
+    <ng-template pTemplate="footer">
+        <button  type="button" style="width: 122px;" pButton (click)="dialogDelete=false" label="Hủy"
+            class="ui-button-cancel"></button>
+        <button (click)="deleteRoutingHub()" type="button" style="width: 122px;" class="ui-button-confirm" pButton label="Xác nhận"></button>
+    </ng-template>
+</p-dialog>
+<!-- End modal xóa -->

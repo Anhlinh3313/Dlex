@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ReleaseVersion>0.3</ReleaseVersion>
+	</PropertyGroup>
+	<ItemGroup>
+		<Folder Include="Repositories\" />
+		<Folder Include="Core\Utils\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="ClosedXML" Version="0.94.2" />
+	  <PackageReference Include="DocumentFormat.OpenXml" Version="2.11.3" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.0.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.0" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
+	  <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Core.Entity\Core.Entity.csproj" />
+	  <ProjectReference Include="..\Core.Infrastructure\Core.Infrastructure.csproj" />
+	</ItemGroup>
+</Project>

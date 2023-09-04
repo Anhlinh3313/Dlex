@@ -1,0 +1,79 @@
+<div class="p-col-12">
+    <div class="card">
+        <div class="p-grid form-group">
+            <div class="p-md-2 p-sm-12">
+                <p-dropdown [options]="year" [(ngModel)]="selectYear" filter="true" (onChange)="changeYear()" class="dp dp-bg-white w-full dp-border"></p-dropdown>
+            </div>
+          
+            <div class="p-md-3 p-sm-12">
+                <input [(ngModel)]="noteHoliday" autocomplete="false" pInputText class="input-check" placeholder="Mô tả..."/>
+            </div>
+
+            <div class="p-md-2 p-sm-12">
+                <p-calendar [(ngModel)]="selectDate" [inputStyleClass]="'dp dp-bg-white w-full dp-border calendar'" [style]="{'width': '100%','height': '89%'}" dateFormat="dd/mm/yy"
+                [yearNavigator]="true" yearRange="2020:2030" [showIcon]="true"></p-calendar>
+            </div>
+
+            <div class="p-md-3 p-sm-12 p-md-offset-2">
+                <div class="p-inputgroup">
+                    <button *ngIf="isAdd" (click)="createHoliday()" pButton type="button" label="TẠO MỚI" class="btn bg-primary color-black br-none" style="width: 85% !important;">
+                    </button>
+                    <button (click)="refresher()" pRipple type="button" class="btn bg-primary color-black br-none" style="width: 36px;margin-left: 20px;float: right;">
+                        <i class="pi pi-refresh pi-spin " style="cursor: pointer;"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="p-grid pt-15">
+            <div class="p-col-12" *ngIf="true">
+                <p-table #dt [value]="holiday" dataKey="id" [scrollable]="true" [paginator]="true"
+                    [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"  [loading]="roleLoading"
+                    [totalRecords]="totalRecords" [lazy]="true" (onPage)="onPageChange($event)"
+                    scrollHeight="400px" [rowsPerPageOptions]="[5,20,50,100]"
+                    currentPageReportTemplate="Từ {first} đến {last} của {totalRecords} mục" >
+                    <ng-template pTemplate="header"> 
+                        <tr>
+                            <th width="140px">TÁC VỤ</th>
+                            <th width="200px" pSortableColumn="code">Ngày/Tháng/Năm </th>
+                            <th width="200px" pSortableColumn="notHoliday">Mô tả </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-holiday let-i="rowIndex">
+                        <tr>
+                            <td width="140px">
+                                <button *ngIf="isDelete" (click)="dialogDelete = true; selectedData = holiday" type="button" class="btn-icon bg-red">
+                                    <img src="../../../assets/layout/images/icon/delete.png" alt="">
+                                </button>
+                            </td>
+                            <td width="200px">{{holiday.date | dateFormatNoTime}}</td>
+                            <td width="200px">{{holiday.notHoliday}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <div class="p-col-12" *ngIf="false">
+                <div class="position-relative" style="text-align: center;margin-top: 15px;">
+                    <img src="assets/layout/images/dashboard/not-result.png" alt="mirage-layout" />
+                    <p class="m-0 color-black font-18 fw-500">KHÔNG TÌM THẤY VẬN ĐƠN NÀO TRONG KHOẢNG THỜI GIAN NÀY</p>
+                    <p class="m-0 color-grey font-14 fw-500">Bạn hãy chọn khoảng thời gian khác để tiếp tục tìm kiếm nhé!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End modal thông tin yêu cầu -->
+
+<!-- Start modal xóa -->
+<p-dialog class="waiting" [(visible)]="dialogDelete" [modal]="true" [style]="{'max-width': '400px'}" [baseZIndex]="10000"
+    showEffect="fade" [draggable]="false" [resizable]="false">
+    <div class="p-col-12 wp-title">
+        <img src="../../../assets/layout/images/icon/delete-wp.png" alt="">
+        <h1 class="fs-16 color-black m-0">Bạn có chắc muốn xoá dữ liệu này??</h1>
+    </div>
+    <ng-template pTemplate="footer">
+        <button type="button" style="width: 122px;" pButton (click)="dialogDelete=false" label="Hủy"
+            class="btn bg-white color-black border-black"></button>
+        <button (click)="deleteHoliday()" type="button" style="width: 122px;" class="btn bg-primary color-black mr-5" pButton label="Xác nhận"></button>
+    </ng-template>
+</p-dialog>
+<!-- End modal xóa -->

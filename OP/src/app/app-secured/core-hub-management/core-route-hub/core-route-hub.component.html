@@ -1,0 +1,202 @@
+<div class="p-col-12">   
+    <div class="card">
+       <div class="p-grid form-group">
+           <div class="p-md-4 p-sm-12">
+               <label class="label-test">Trung tâm</label>
+               <p-dropdown  (onChange)="changeCenterHub()" [options]="centerHubs" [(ngModel)]="selectedCenterHub" class="dp dp-bg-white w-full dp-border" placeholder="Chọn trung tâm" optionLabel="label" opt filter="true"></p-dropdown>
+           </div>
+           <div class="p-md-4 p-sm-12">
+               <label class="label-test">Chi nhánh</label>
+               <p-dropdown (onChange)="changePoHub()" [options]="poHubs" [(ngModel)]="selectedPoHub"  class="dp dp-bg-white w-full dp-border" placeholder="Chọn chi nhánh" optionLabel="label" opt filter="true"></p-dropdown>
+           </div>
+           <div class="p-md-4 p-sm-12">
+               <label class="label-test">Trạm</label>
+               <p-dropdown (onChange)="changeHub()" [options]="hubs" [(ngModel)]="selectedHub"  class="dp dp-bg-white w-full dp-border" placeholder="Chọn trạm" optionLabel="label" opt filter="true"></p-dropdown>
+           </div>
+       </div>
+    </div>
+</div>
+<div class="p-col-12">
+    <div class="card">
+       <div class="p-grid form-group">
+           <!-- Begin Province -->
+           <div class="p-md-4 p-sm-12">
+                <div class="p-grid form-group">
+                    <div class="p-md-12">
+                        <label class="fw-700">Danh sách tỉnh thành</label>
+                    </div>
+                    <div class="p-md-6 p-sm-12">
+                        <button (click)="clickSelectProvinces()" pButton type="button" label="Chọn" class="btn btn-selected bg-primary color-black br-none">
+                            <i class="pi pi-arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="p-md-6 p-sm-12">
+                        <div class="input-group pull-right">
+                            <input #filterProvinceGb type="text" placeholder="Nhập chuỗi cần tìm ..." class="input-ms form-control" (input)="dtProvince.filterGlobal($event.target.value, 'contains')">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-sm-12">
+                        <p-table #dtProvince [value]="provinces" [responsive]="true" [(selection)]="selectedProvinces" dataKey="id" scrollable="true"
+                            sortField="name" scrollHeight="550px" [globalFilterFields]="colsProvince" [paginator]="true" [(first)]="firstPage1"
+                            [rows]="50" [rowsPerPageOptions]="[50, 100, 500]">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 3.25em; height: 50px;">
+                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                    </th>
+                                    <th style="text-align: center !important;" pSortableColumn="name">
+                                        Tỉnh thành
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData>
+                                <tr *ngIf="!rowData.isDisabled">
+                                    <td style="width: 3.25em; height: 50px;">
+                                        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                                    </td>
+                                    <td>{{rowData.name}}</td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td [attr.colspan]="2">
+                                        Không tìm thấy dữ liệu
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+           </div>
+           <!-- End Province -->
+           <!-- Begin District -->
+           <div class="p-md-4 p-sm-12">
+            <div class="p-grid form-group">
+                <div class="p-md-12">
+                    <label class="fw-700">Danh sách quận huyện</label>
+                </div>
+                <div class="p-md-6 p-sm-12">
+                    <button (click)="clickSelectDistricts()" pButton type="button" label="Chọn" class="btn btn-selected bg-primary color-black br-none">
+                        <i class="pi pi-arrow-right"></i>
+                    </button>
+                </div>
+                <div class="p-md-6 p-sm-12">
+                    <div class="input-group pull-right">
+                        <input #filterProvinceGb type="text" placeholder="Nhập chuỗi cần tìm ..." class="input-ms form-control" (input)="dtDistrict.filterGlobal($event.target.value, 'contains')">
+                    </div>
+                </div>
+            </div>
+                <div class="row mt-5">
+                    <div class="col-sm-12">
+                        <p-table #dtDistrict [value]="districts" [responsive]="true" [(selection)]="selectedDistricts" dataKey="id" scrollable="true"
+                            sortField="name" scrollHeight="550px" [globalFilterFields]="colsDistrict" [paginator]="true" [(first)]="firstPage2"
+                            [rows]="50" [rowsPerPageOptions]="[50, 100, 500]">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 3.25em; height: 50px;">
+                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                    </th>
+                                    <th style="text-align: center !important;" pSortableColumn="name">
+                                        Quận huyện
+                                    </th>
+                                    <th style="text-align: center !important;" pSortableColumn="province.name">
+                                        Tỉnh thành
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData>
+                                <tr *ngIf="!rowData.isDisabled">
+                                    <td style="width: 3.25em; height: 50px;">
+                                        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                                    </td>
+                                    <td>{{rowData.name}}</td>
+                                    <td>{{rowData.province.name}}</td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td [attr.colspan]="3">
+                                        Không tìm thấy dữ liệu
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+           </div>
+           <!-- End District -->
+           <!-- Begin Ward -->
+           <div class="p-md-4 p-sm-12">
+               <div class="ibox float-e-margins">
+                <div class="p-grid form-group">
+                    <div class="p-md-12">
+                        <label class="fw-700">Danh sách phường xã</label>
+                    </div>
+                    <div class="p-md-6 p-sm-12">
+                        <button *ngIf="isAdd" (click)="clickSaveChange()" pButton type="button" label="Hoàn tất" class="btn btn-save bg-primary color-black br-none">
+                        </button>
+                    </div>
+                    <div class="p-md-6 p-sm-12">
+                        <div class="input-group pull-right">
+                            <input #filterProvinceGb type="text" placeholder="Nhập chuỗi cần tìm ..." class="input-ms form-control" (input)="dt.filterGlobal($event.target.value, 'contains')">
+                        </div>
+                    </div>
+                </div>
+                    <div class="row mt-5">
+                        <div class="col-sm-12">
+                            <p-table #dt [value]="wards" [responsive]="true" [(selection)]="selectedWards" dataKey="id" scrollable="true" scrollHeight="550px"
+                                [globalFilterFields]="colsWard" [paginator]="true" [rows]="50" [rowsPerPageOptions]="[50, 100, 500]" [(first)]="firstPage3"
+                                sortField="name">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th style="width: 3.25em; height: 50px;">
+                                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                        </th>
+                                        <th style="text-align: center !important;" pSortableColumn="name">
+                                            Phường xã
+                                        </th>
+                                        <th style="text-align: center !important;" pSortableColumn="district.name">
+                                            Quận huyện
+                                        </th>
+                                        <th style="text-align: center !important;" pSortableColumn="district.province.name">
+                                            Tỉnh thành
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData>
+                                    <tr *ngIf="!rowData.isDisabled">
+                                        <td style="width: 3.25em; height: 50px;">
+                                            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                                        </td>
+                                        <td>{{rowData.name}}</td>
+                                        <td>{{rowData.district.name}}</td>
+                                        <td>{{rowData.district.province.name}}</td>
+                                    </tr>
+
+                                    <tr *ngIf="rowData.isDisabled" [ngClass]="{'disableRow': rowData.isDisabled}" pTooltip="{{rowData.hubName}} đang sử dụng" tooltipPosition="left">
+                                        <td style="width: 3.25em; height: 50px;">
+                                            <p-tableCheckbox [value]="rowData" *ngIf="!rowData.isDisabled"></p-tableCheckbox>
+                                        </td>
+                                        <td>{{rowData.name}}</td>
+                                        <td>{{rowData.district.name}}</td>
+                                        <td>{{rowData.district.province.name}}</td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td [attr.colspan]="4">
+                                            Không tìm thấy dữ liệu
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+               </div>
+           </div>
+           <!-- End Ward -->
+       </div>
+    </div>
+</div>

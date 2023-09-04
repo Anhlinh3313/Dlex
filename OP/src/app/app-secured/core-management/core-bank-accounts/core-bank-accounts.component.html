@@ -1,0 +1,79 @@
+<div class="p-col-12">
+    <div class="card">
+        <div class="p-grid form-group">
+            <div class="p-col-2">
+                <button *ngIf="isAdd" (click)="createBankAccount()" pButton type="button" label="TẠO MỚI" class="btn bg-primary color-black br-none">
+                    <img src="../../../assets/layout/images/topbar/create_black.png" alt="">
+                </button>
+            </div>
+            <div class="p-col-2 p-offset-8">
+                <div class="p-inputgroup">
+                    <div class="p-input-icon-left">
+                       <i class="pi pi-search" style="cursor: pointer;"></i>
+                       <input autocomplete="false" [(ngModel)]="searchText" (keydown.enter)="onFilter()" pInputText class="input-icon search-input-wrapper" placeholder="Tìm kiếm..."/>
+                    </div>
+                    <button (click)="refresher()" pRipple type="button" class="btn bg-primary color-black br-none" style="width: 36px;margin-left: 20px;">
+                        <i class="pi pi-refresh pi-spin " style="cursor: pointer;"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        <div class="p-grid pt-15">
+            <div class="p-col-12" *ngIf="true">
+                <p-table #dt [value]="accountBank" dataKey="id" [scrollable]="true" [paginator]="true"
+                    [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"  [loading]="roleLoading"
+                    [totalRecords]="totalRecords" [lazy]="true" (onPage)="onPageChange($event)"
+                    scrollHeight="400px" [rowsPerPageOptions]="[5,20,50,100]"
+                    currentPageReportTemplate="Từ {first} đến {last} của {totalRecords} mục" >
+                    <ng-template pTemplate="header"> 
+                        <tr>
+                            <th width="140px">TÁC VỤ</th>
+                            <th width="200px" pSortableColumn="code">Số TK</th>
+                            <th width="200px" pSortableColumn="name">Chi nhánh </th>
+                            <th width="200px" pSortableColumn="name">Tên ngân hàng </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-accountBank let-i="rowIndex">
+                        <tr>
+                            <td width="140px">
+                                <button (click)="createBankAccount(accountBank)" type="button" class="btn-icon bg-primary">
+                                    <img src="../../../assets/layout/images/icon/view.png" alt="">
+                                </button>
+                                <button *ngIf="isDelete" (click)="dialogDelete = true; selectedData = accountBank" type="button" class="btn-icon bg-red">
+                                    <img src="../../../assets/layout/images/icon/delete.png" alt="">
+                                </button>
+                            </td>
+                            <td width="200px">{{accountBank.code}}</td>
+                            <td width="200px">{{accountBank.branchName}}</td>
+                            <td width="200px">{{accountBank.bankName}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <div class="p-col-12" *ngIf="false">
+                <div class="position-relative" style="text-align: center;margin-top: 15px;">
+                    <img src="assets/layout/images/dashboard/not-result.png" alt="mirage-layout" />
+                    <p class="m-0 color-black font-18 fw-500">KHÔNG TÌM THẤY VẬN ĐƠN NÀO TRONG KHOẢNG THỜI GIAN NÀY</p>
+                    <p class="m-0 color-grey font-14 fw-500">Bạn hãy chọn khoảng thời gian khác để tiếp tục tìm kiếm nhé!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End modal thông tin yêu cầu -->
+
+<!-- Start modal xóa -->
+<p-dialog class="waiting" [(visible)]="dialogDelete" [modal]="true" [style]="{'max-width': '400px'}" [baseZIndex]="10000"
+    showEffect="fade" [draggable]="false" [resizable]="false">
+    <div class="p-col-12 wp-title">
+        <img src="../../../assets/layout/images/icon/delete-wp.png" alt="">
+        <h1 class="fs-16 color-black m-0">Bạn có chắc muốn xoá dữ liệu này??</h1>
+    </div>
+    <ng-template pTemplate="footer">
+        <button type="button" style="width: 122px;" pButton (click)="dialogDelete=false" label="Hủy"
+            class="btn bg-white color-black border-black"></button>
+        <button (click)="deleteBankAccount()" type="button" style="width: 122px;" class="btn bg-primary color-black mr-5" pButton label="Xác nhận"></button>
+    </ng-template>
+</p-dialog>
+<!-- End modal xóa -->

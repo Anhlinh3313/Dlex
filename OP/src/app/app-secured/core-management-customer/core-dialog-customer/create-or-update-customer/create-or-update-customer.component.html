@@ -1,0 +1,132 @@
+<section>
+    <div class="p-grid form-group">
+        <!-- <div class="p-md-3 p-col-12">
+            <label class="label-test">Mã khách hàng (<b class="color-red">*</b>)</label>
+            <input [(ngModel)]="customer.code" pInputText class="input search-input-wrapper" placeholder="Nhập mã khách hàng..."/>
+        </div> -->
+        <div class="p-md-3 p-col-12">
+            <label class="label-test">Tài khoản đăng nhập (<b class="color-red">*</b>)</label>
+            <input [(ngModel)]="customer.userName" pInputText class="input search-input-wrapper" placeholder="Tài khoản đăng nhập..."/>
+        </div>
+        <div class="p-md-3 p-col-12" style="position: relative;">
+            <label class="label-test">Mật khẩu (<b class="color-red">*</b>)</label>
+            <div class="login-input-wrapper mb-0">
+                <img class="eye-password" [src]="inputElementNewPassword.src" (click)="onClickNewPassword()" >
+                <input [type]="inputElementNewPassword.type" [(ngModel)]="customer.passWord" pInputText class="input search-input-wrapper" placeholder="Nhập Mật khẩu..."/>
+            </div>
+        </div>
+        <div class="p-md-3 p-col-12">
+            <label class="label-test">HTTT</label>
+            <p-dropdown [(ngModel)]="selectedPaymentType" [options]="paymentTypes" class="dp dp-bg-white w-full dp-border" placeholder="Chọn HTTT" optionLabel="label" filter="true"></p-dropdown>
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-3 p-col-12">
+            <label class="label-test">Tên (<b class="color-red">*</b>)</label>
+            <input [(ngModel)]="customer.name" pInputText class="input search-input-wrapper" placeholder="Nhập Tên..."/>
+        </div>
+        <div class="p-md-3 p-col-12">
+            <label class="label-test">Điện thoại (<b class="color-red">*</b>)</label>
+            <input type="number" [(ngModel)]="customer.phoneNumber" pInputText class="input search-input-wrapper" placeholder="Nhập Điện thoại..."/>
+        </div>
+        <div class="p-md-3 p-col-12">
+            <label class="label-test">Email (<b class="color-red">*</b>)</label>
+            <input [(ngModel)]="customer.email" pInputText class="input search-input-wrapper" placeholder="Nhập Email..."/>
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-3 p-col-12">
+            <label class="label-test">Mã số thuế</label>
+            <input [(ngModel)]="customer.vseOracleCode" pInputText class="input search-input-wrapper" placeholder="Nhập Mã số thuế..."/>
+        </div>
+        <div class="p-md-3 p-col-12">
+            <label class="label-test">Công ty</label>
+            <input [(ngModel)]="customer.companyName" pInputText class="input search-input-wrapper" placeholder="Nhập Công ty..."/>
+        </div>
+        <div class="p-md-3 p-col-12">
+            <label class="label-test">Loại khách hàng</label>
+            <p-dropdown [(ngModel)]="selectedCustomerType" [options]="customerType" class="dp dp-bg-white w-full dp-border" placeholder="Chọn loại khách hàng" optionLabel="label" filter="true"></p-dropdown>
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-9 p-col-12">
+            <label class="label-test">Địa chỉ CTY</label>
+            <input [(ngModel)]="customer.addressCompany" pInputText class="input search-input-wrapper" placeholder="Nhập Địa chỉ CTY..."/>
+        </div>
+        <div class="p-md-3 p-col-12">
+            <label class="label-test">Bảng giá</label>
+            <p-multiSelect [(ngModel)]="selectedPriceList" [options]="priceList" (onChange)="onChangeTest()" class="mts mts-bg-white mts-border w-full dp-border" placeholder="Chọn bảng giá" optionLabel="label" filter="true"></p-multiSelect>
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-9 p-col-12">
+            <label class="label-test">Địa chỉ [lấy hàng] (<b class="color-red">*</b>)</label>
+            <input #address id="address" ngx-google-places-autocomplete [options]='options' [(ngModel)]="customer.address" #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event, address)" placeholder="Nhập Địa chỉ [lấy hàng]..." class="input search-input-wrapper" style="font-size: 13px;" />
+            <!-- <input [(ngModel)]="customer.address" pInputText class="input search-input-wrapper" placeholder="Nhập Địa chỉ [lấy hàng]..."/> -->
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-3 p-col-12">
+            <label class="label-test">Tỉnh/Thành (<b class="color-red">*</b>)</label>
+            <p-dropdown [(ngModel)]="selectedProvince" [options]="provinces" (onChange)="getDistrictByProvinceId()" class="dp dp-bg-white w-full dp-border" placeholder="Chọn tỉnh/thành" optionLabel="label" filter="true"></p-dropdown>
+        </div>
+        <div class="p-md-3 p-col-12">
+            <label class="label-test">Quận/Huyện (<b class="color-red">*</b>)</label>
+            <p-dropdown [(ngModel)]="selectedDistrict" [options]="districts" (onChange)="getWardByDistrictId()" class="dp dp-bg-white w-full dp-border" placeholder="Chọn quận/huyện" optionLabel="label" filter="true"></p-dropdown>
+        </div>
+        <div class="p-md-3 p-col-12">
+            <label class="label-test">Phường/Xã (<b class="color-red">*</b>)</label>
+            <p-dropdown [(ngModel)]="selectedWard" [options]="wards" (onChange)="getHubByAddress()"class="dp dp-bg-white w-full dp-border" placeholder="Chọn phường/xã" optionLabel="label" filter="true"></p-dropdown>
+        </div>
+        <div class="p-md-3 p-col-12">
+            <!-- <label class="label-test">TT/CN/T Nhận (<b class="color-red">*</b>)</label> -->
+            <label class="label-test">TT/CN/T Nhận </label>
+            <p-dropdown [(ngModel)]="selectedHub" [options]="hubs" class="dp dp-bg-white w-full dp-border" placeholder="Chọn TT/CN/T nhận" optionLabel="label" filter="true"></p-dropdown>
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-3 p-col-12">
+            <label class="label-test">NV lấy hàng</label>
+            <!-- <p-dropdown class="dp dp-bg-white w-full dp-border" placeholder="Chọn NV lấy hàng" optionLabel="label" filter="true"></p-dropdown> -->
+            <p-autoComplete [(ngModel)]="selectedPickupUser" [suggestions]="filteredPickupUsers" (completeMethod)="filterPickupUser($event)" (onSelect)="onSelectPickupUser()" (onDropdownClick)="filterPickupUser($event)" class="autocomplete-input" placeholder="Chọn NV lấy hàng" [dropdown]="true"></p-autoComplete>
+        </div>
+        <div class="p-md-3 p-col-12">
+            <label class="label-test">NV kinh doanh</label>
+            <p-autoComplete [(ngModel)]="selectedSalesUser" [suggestions]="filteredSalesUsers" (completeMethod)="filterSalesUser($event)" (onSelect)="onSelectSalesUser()"  (onDropdownClick)="filterSalesUser($event)" class="autocomplete-input" placeholder="Chọn NV kinh doanh" [dropdown]="true"></p-autoComplete>
+        </div>
+        <div class="p-md-3 p-col-12">
+            <label class="label-test">NV CSKH</label>
+            <p-autoComplete [(ngModel)]="selectedSupportUser" [suggestions]="filteredSupportUsers" (completeMethod)="filterSupportUser($event)" (onSelect)="onSelectSupportUser()"  (onDropdownClick)="filterSupportUser($event)" class="autocomplete-input" placeholder="Chọn NV CSKH" [dropdown]="true"></p-autoComplete>
+        </div>
+        <div class="p-md-3 p-col-12">
+            <label class="label-test">NV công nợ</label>
+            <p-autoComplete [(ngModel)]="selectedAccountingUser" [suggestions]="filteredAccountingUsers" (completeMethod)="filterAccountingUser($event)" (onSelect)="onSelectAccountingUser()"  (onDropdownClick)="filterAccountingUser($event)" class="autocomplete-input" placeholder="Chọn NV công nợ" [dropdown]="true"></p-autoComplete>
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-md-9 p-col-12">
+            <label class="label-test">Mô tả</label>
+            <textarea rows="5" [(ngModel)]="customer.notes"  class="input search-input-wrapper" placeholder="Nhập Mô tả..." style="height: auto;"></textarea>
+        </div>
+        <div class="p-md-3 p-col-12">
+            <label class="label-test">&nbsp;</label>
+            <div class="p-md-12 p-col-12" style="margin-top: -8px;">
+                <p-checkbox [(ngModel)]="isEnabledCustomer" [binary]="true"></p-checkbox>
+                <label class="label-test">không hoạt động</label>
+            </div>
+            <!-- <div class="p-grid">
+                <div class="p-md-12 p-col-12">
+                    <label class="label-test">Thời gian kết thúc sử dụng</label>
+                    <p-calendar [(ngModel)]="timeStopUsing" dateFormat="dd/mm/yy" class="calendar-input search-input-wrapper" placeholder="Chọn Thời gian kết thúc sử dụng"></p-calendar>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-12 p-col-12 text-center mt-15">
+            <button *ngIf="isEdit && edit" (click)="createOrUpdate()" pButton type="button" label="LƯU" class="btn bg-primary color-black mr-5" style="width: 100px;"></button>
+            <button *ngIf="isAdd && !edit" (click)="createOrUpdate()" pButton type="button" label="TẠO MỚI" class="btn bg-primary color-black mr-5" style="width: 100px;"></button>
+            <button (click)="closeDialog(false)" pButton type="button" label="HUỶ BỎ" class="btn bg-white color-black border-black" style="width: 100px;"></button>
+        </div>
+    </div>
+</section>

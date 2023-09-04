@@ -1,0 +1,85 @@
+<div class="login-body">
+    <div class="login-content">
+        <div class="login-panel">
+            <div class="">
+                <img src="assets/layout/images/logo-white.png" alt="" srcset="">
+            </div>
+            <div class="login-panel-content" *ngIf="isLogin">
+                <h3>ĐĂNG NHẬP</h3>
+                <div class="forms">
+                    <div class="login-input-wrapper">
+                        <input [(ngModel)]="loginModel.companyCode" pInputText class="color-black bg-white" placeholder="Mã công ty" [disabled]="checkCustomer" [style]="capitalizeLetter"/>
+                    </div>
+
+                    <div class="login-input-wrapper">
+                        <input id="username" [(ngModel)]="loginModel.username" pInputText class="color-black bg-white" placeholder="Nhập tài khoản" />
+                    </div>
+
+                    <div class="login-input-wrapper mb-0">
+                        <img class="eye-password" [src]="inputElementNewPassword.src" (click)="onClickNewPassword()">
+                        <input [type]="inputElementNewPassword.type" id="password" [(ngModel)]="loginModel.password" class="color-black bg-white" placeholder="Mật khẩu" pPassword [feedback]="false" (keyup.enter)="login()" />
+                    </div>
+
+                    <div class="forgot-password">
+                        <span style="cursor: pointer;" (click)="clickSendEmail()">Quên mật khẩu?</span>
+                    </div>
+
+                    <div class="buttons">
+                        <button pButton type="button" class="btn bg-primary color-black text-uppercase fw-700" label="Đăng nhập" (click)="login()"></button>
+                    </div>
+
+                    <div class="register mt-35">
+                        <!-- <span class="color-black fw-500">Chưa có tài khoản? <span class="color-black fw-700" style="cursor: pointer;" >Đăng ký</span> ngay</span> -->
+                    </div>
+                </div>
+            </div>
+            <div class="login-panel-content" *ngIf="isForgetPassword">
+                <h3>Quên mật khẩu</h3>
+                <div class="forms">
+                    <div class="login-input-wrapper">
+                        <input [(ngModel)]="forgotPasswordModel.companyCode" pInputText class="color-black bg-white" placeholder="Mã công ty" [hidden]="checkCustomer" [style]="capitalizeLetter"/>
+                    </div>
+
+                    <div class="login-input-wrapper">
+                        <input id="username" [(ngModel)]="forgotPasswordModel.email" pInputText class="color-black bg-white" placeholder="Email / Số điện thoại" (keyup.enter)="sendEmail()"/>
+                    </div>
+
+                    <div class="buttons">
+                        <button pButton type="button" class="btn bg-primary color-black text-uppercase fw-700" label="Gửi yêu cầu" (click)="sendEmail()"></button>
+                    </div>
+                    
+                    <div class="register mt-35">
+                        <span class="color-black fw-500">Quay lại? <span class="color-black fw-700" style="cursor: pointer;" (click)="cancelLogin()">Đăng nhập</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="login-panel-content" *ngIf="isChangePassword">
+                <h3>Đổi mật khẩu</h3>
+                <div class="forms">
+                    <div class="login-input-wrapper">
+                        <img class="eye-password" [src]="inputElementNewPassword.src" (click)="onClickNewPassword()">
+                        <input [type]="inputElementNewPassword.type" id="password" [(ngModel)]="changePasswordModel.newPassWord" class="color-black bg-white" placeholder="Nhập mật khẩu mới..." pPassword [feedback]="false" />
+                    </div>
+
+                    <div class="login-input-wrapper">
+                        <img class="eye-password" [src]="inputElementConfirmPassword.src" (click)="onClickConfirmPassword()">
+                        <input [type]="inputElementConfirmPassword.type" id="password"  [(ngModel)]="changePass" class="color-black bg-white" placeholder="Nhập lại mật khẩu mới..." pPassword [feedback]="false"  (keyup.enter)="chanPassword()"/>
+                    </div>
+
+                    <div class="forgot-password">
+                        <span style="cursor: pointer;"> </span>
+                    </div>
+
+                    <div class="buttons">
+                        <button pButton type="button" class="btn bg-primary color-black text-uppercase fw-700" label="Lưu thay đổi" (click)="chanPassword()"></button>
+                    </div>
+                    
+                    <div class="register mt-35">
+                        <span class="color-black fw-500">Quay lại? <span class="color-black fw-700" style="cursor: pointer;" (click)="cancelLogin()">Đăng nhập</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="desert"></div>
+    </div>
+</div>

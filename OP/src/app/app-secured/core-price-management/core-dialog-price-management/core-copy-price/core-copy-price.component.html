@@ -1,0 +1,14 @@
+<section>
+    <div class="p-grid form-group">
+        <div class="p-md-12 p-col-12">
+            <label class="label-test">Mã bảng giá mới (<b class="color-red">*</b>)</label>
+            <input [(ngModel)]="newPriceServiceCode" pInputText class="input search-input-wrapper" placeholder="Nhập mã..."/>
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-12 p-col-12 text-center mt-15">
+            <button (click)="copyPriceService()" pButton type="button" label="Copy bảng giá" class="btn bg-primary color-black mr-5" style="width: 135px;"></button>
+            <button (click)="onClickCancel(false)" pButton type="button" label="HUỶ BỎ" class="btn bg-white color-black border-black" style="width: 100px;"></button>
+        </div>
+    </div>
+</section>

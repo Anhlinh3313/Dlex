@@ -1,0 +1,22 @@
+<section>
+    <div class="p-grid form-group">
+        <div class="p-md-4 p-col-12">
+            <label class="label-test">Mã (<b class="color-red">*</b>)</label>
+            <input [(ngModel)]="code" pInputText class="input search-input-wrapper" placeholder="Nhập mã..."/>
+        </div>
+        <div class="p-md-4 p-col-12">
+            <label class="label-test">Tên (<b class="color-red">*</b>)</label>
+            <input [(ngModel)]="name" pInputText class="input search-input-wrapper" placeholder="Nhập tên..."/>
+        </div>
+        <div class="p-md-4 p-col-12">
+            <label class="label-test">Ưu tiên</label>
+            <input [(ngModel)]="numOrder" pInputText type="number" class="input search-input-wrapper" placeholder="Mức ưu tiên..."/>
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-12 p-col-12 text-center mt-15">
+            <button *ngIf="isAdd" (click)="onClickSave()" pButton type="button" label="TẠO MỚI" class="btn bg-primary color-black mr-5" style="width: 100px;"></button>
+            <button (click)="onClickCancel(false)" pButton type="button" label="HUỶ BỎ" class="btn bg-white color-black border-black" style="width: 100px;"></button>
+        </div>
+    </div>
+</section>

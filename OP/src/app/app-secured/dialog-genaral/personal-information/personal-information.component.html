@@ -1,0 +1,78 @@
+<section>
+    <div class="p-grid form-group">
+        <div class="p-md-4 p-col-12">
+            <label>Mã (<b class="color-red">*</b>)</label>
+            <input [(ngModel)]="userItem.code" pInputText class="input search-input-wrapper" [disabled]="true" placeholder="Nhập mã..." style="background-color: #c7c5c2;"/>
+        </div>
+        <div class="p-md-4 p-col-12">
+            <label>Tên đăng nhập (<b class="color-red">*</b>)</label>
+            <input [(ngModel)]="userItem.userName" pInputText class="input search-input-wrapper" [disabled]="true" style="background-color: #c7c5c2;"/>
+        </div>
+        <div class="p-md-4 p-col-12" *ngIf="false">
+            <label>Mật khẩu (<b class="color-red">*</b>)</label>
+            <img style="padding-top: 30px;" class="eye-password" [src]="inputElementNewPassword.src" (click)="onClickNewPassword()">
+            <input [type]="inputElementNewPassword.type" [(ngModel)]="userItem.password" pInputText class="input search-input-wrapper" placeholder="Nhập mật khẩu..." maxlength="16"/>
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-4 p-col-12">
+            <label>Họ và tên (<b class="color-red">*</b>)</label>
+            <input [(ngModel)]="userItem.fullName" pInputText class="input search-input-wrapper" placeholder="Nhập họ và tên..."/>
+        </div>
+        <div class="p-md-4 p-col-12">
+            <label>Số điện thoại (<b class="color-red">*</b>)</label>
+            <input [(ngModel)]="userItem.phoneNumber" pInputText class="input search-input-wrapper" placeholder="Nhập số điện thoại..."/>
+        </div>
+        <div class="p-md-4 p-col-12">
+            <label>Email (<b class="color-red">*</b>)</label>
+            <input [(ngModel)]="userItem.email" pInputText class="input search-input-wrapper" placeholder="Nhập email..."/>
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-4 p-col-12">
+            <label>Số CMND/Passport</label>
+            <input [(ngModel)]="userItem.identityCard" pInputText class="input search-input-wrapper" placeholder="Nhập số CMND/Passport..."/>
+        </div>
+        <div class="p-md-8 p-col-12">
+            <label>Địa chỉ</label>
+            <input #Address [(ngModel)]="userItem.address" type="address" id="address" pInputText class="input search-input-wrapper" placeholder="Nhập địa chỉ..."/>
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-6 p-col-12">
+            <label>&nbsp;</label>
+            <div class="mt-5 pr-30 display-space-between" style="height: 34px;">
+                <p-radioButton [disabled]="checkIsEdit" (click)="loadCheckRoleEdit()" [(ngModel)]="manageHub" value="1" label="Trung tâm" class="pr-10"></p-radioButton>
+                <p-radioButton [disabled]="checkIsEdit" (click)="loadCheckRoleEdit()" [(ngModel)]="manageHub" value="2" label="Chi nhánh" class="pr-10"></p-radioButton>
+                <p-radioButton [disabled]="checkIsEdit" (click)="loadCheckRoleEdit()" [(ngModel)]="manageHub" value="3" label="Trạm"></p-radioButton>
+            </div>
+        </div>
+        <div class="p-md-6 p-col-12">
+            <label>Đơn vị quản lý (<b class="color-red">*</b>)</label>
+            <p-dropdown  [disabled]="checkIsEdit" (onChange)="onChangeManageHub()" [options]="manageHubs" [(ngModel)]="selectedManageHub" class="dp dp-bg-white w-full dp-border" placeholder="Chọn đơn vị quản lý" optionLabel="label" filter="true"></p-dropdown>
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-4 p-col-12">
+            <label>Đơn vị làm việc (<b class="color-red">*</b>)</label>
+            <p-dropdown  [disabled]="checkIsEdit" (onChange)="onChangeHub()" [options]="hubs" [(ngModel)]="selectedHub" class="dp dp-bg-white w-full dp-border" placeholder="Chọn đơn vị làm việc " optionLabel="label" filter="true"></p-dropdown>
+        </div>
+        <div class="p-md-4 p-col-12">
+            <label>Chức vụ</label>
+            <!-- <p-dropdown (onChange)="onChangeRole()" [options]="roles" [(ngModel)]="selectedRole" class="dp dp-bg-white w-full dp-border" placeholder="Chọn chức vụ" optionLabel="label" filter="true"></p-dropdown> -->
+            <p-multiSelect  [disabled]="checkIsEdit" (onChange)="onChangeUserRoles()" [options]="roles" [(ngModel)]="selectedRoles" class="mts mts-bg-white w-full mts-border" [defaultLabel]="selectedItemsLabel" placeholder="Chọn chức vụ" optionLabel="label" selectedItemsLabel="Đã chọn {0} chức vụ"></p-multiSelect>
+        </div>
+        <div class="p-md-4 p-col-12">
+            <label>Khoá tài khoản</label>
+            <div class="mt-5" style="height: 34px;">
+                <p-checkbox [disabled]="checkIsEdit" [binary]="true" [(ngModel)]="userItem.isBlocked"></p-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="p-grid form-group">
+        <div class="p-md-12 p-col-12 text-center mt-15">
+            <button *ngIf="isEdit" (click)="onClickSave()" pButton type="button" label="LƯU" class="btn bg-primary color-black mr-5" style="width: 100px;"></button>
+            <button (click)="onClickCancel(false)" pButton type="button" label="HUỶ BỎ" class="btn bg-white color-black border-black" style="width: 100px;"></button>
+        </div>
+    </div>
+</section>

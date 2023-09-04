@@ -1,0 +1,29 @@
+<div class="layout-sidebar" [ngClass]="{'layout-sidebar-active': app.sidebarActive}" (click)="app.onSidebarClick($event)"
+     (mouseover)="app.sidebarActive=true" (mouseleave)="app.sidebarActive=false">
+    <div class="sidebar-logo logo-lg">
+        <a [routerLink]="['/']">
+            <img alt="logo" src="assets/layout/images/logo-white-s2.png"/>
+        </a>
+    </div>
+    <div class="sidebar-logo logo-sm">
+        <a [routerLink]="['/']">
+            <img alt="logo" src="assets/layout/images/icon.png"/>
+        </a>
+    </div>
+
+    <div class="layout-menu-container" (click)="onMenuClick()">
+        <ul class="layout-menu">
+            <ng-template ngFor let-item let-i="index" [ngForOf]="model">
+                <li app-menuitem [item]="item" [index]="i" [root]="true"></li>
+            </ng-template>
+            <!-- <li app-menuitem *ngFor="let item of model; let i = index;" [item]="item" [index]="i" [root]="true"></li> -->
+        </ul>
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="text text-center">
+            <h1 class="fs-14 color-white m-0">10.000.000 Đ</h1>
+            <h1 class="fs-14 m-0 color-white">Hạn mức còn lại</h1>
+        </div>
+    </div>
+</div>
